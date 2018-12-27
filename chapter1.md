@@ -6,7 +6,7 @@ title: "introduction"
 # Introduction
 
 
-Fisher's Discriminant Analysis (hitherto referred to as _FDA_) is a dimensionality reduction method in statistical data analysis. In this article, we aim to discuss FDA in detail, both mathematically and implementation-wise. Given a labelled dataset _D_ in _d_ dimensions, d>=2, with _K_ output class labels, _FDA_ aims to find a _discriminant_ in a lower dimension _d'_ \lt  _d_ onto which _D_ is projected. The projected data points belonging to the _K_ classes are well seperated on this discriminant. 
+Fisher's Discriminant Analysis (hitherto referred to as _FDA_) is a dimensionality reduction method in statistical data analysis. In this article, we aim to discuss FDA in detail, both mathematically and implementation-wise. Given a labelled dataset _D_ in _d_ dimensions, d>=2, with _K_ output class labels, _FDA_ aims to find a _discriminant_ in a lower dimension d'<d onto which _D_ is projected. The projected data points belonging to the _K_ classes are well seperated on this discriminant. 
 
 Figure 1: 
 ![Scatterplot](images/Fig1.png "Fisher's discriminant")
