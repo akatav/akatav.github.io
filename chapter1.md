@@ -5,6 +5,15 @@ title: "introduction"
 
 # Introduction
 
+
+Fisher's Discriminant Analysis (hitherto referred to as _FDA_) is a dimensionality reduction method in statistical data analysis. In this article, we aim to discuss FDA in detail, both mathematically and implementation-wise. Given a labelled dataset _D_ in _d_ dimensions, d>=2, with _K_ output class labels, _FDA_ aims to find a _discriminant_ in a lower dimension _d'_ $\le$ _d_ onto which _D_ is projected. The projected data points belonging to the _K_ classes are well seperated on this discriminant. 
+
+Figure 1: 
+![Scatterplot](images/Fig1.png "Fisher's discriminant")
+
+Imagine dropping a perpendicular line from all the points onto the black line. The red points would be clearly seperated from the blue points on this line. 
+Now imagine dropping a perpendicular line from all the points onto the green line. The red points and the blue points will not be as well seperated. So, the black line is a better discriminant in this case. 
+
 A saga is a story of heroic events and achievements of a personage or family, typically written in medieval Icelandic or Old Norse in the form of a prose narrative. According to Wikipedia, the term saga originates from the Norse "saga" and refers to "what is said" or "story, tale, history." The closest term in English to the word saga is "saw" (as in _old saying_). In this regard, I'm using the word Saga to play with its meaning, and convey the ideas of history, story, and narrative of events associated to Partial Least Squares methods.
 
 The main motivating trigger behind this book has been my long standing obsession to understand the historical development of Partial Least Squares methods in order to find the who's, why's, what's, when's, and how's. It is the result of an intermittent 10 year quest, tracking bits and pieces of information in order to assemble the story of such methods. Moreover, this text is my third iteration on the subject, following two of my previous works: chapter 2 _"Historical Review"_ of my PhD thesis ([Sanchez, 2009](references.html/#Sanchez2009)), and the appendix _"A Historical Overview of PLS-PM"_ from my book _PLS Path Modeling with R_ ([Sanchez, 2013](references.html/#Sanchez2013)). 
