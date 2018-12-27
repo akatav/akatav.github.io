@@ -1,6 +1,6 @@
-# The Saga of PLS
+# Fisher's Discriminant Analysis
 
-Main repository behind the book [The Saga of PLS](http://sagaofpls.github.io)
+Main repository behind the book [Fisher's Discriminant Analysis](http://akatav.github.io)
 
 
-Author: [Gaston Sanchez](http://gastonsanchez.com)
+Author: [Supraja J V]

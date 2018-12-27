@@ -1,5 +1,5 @@
 # creates book as a 'report' (no references)
-pandoc chapters/*.md --variable title="The Saga of PLS" --variable author="Gaston Sanchez" --variable date="April 2015" --variable fontsize=12pt --toc-depth=1 -V documentclass=report -o sagaofpls.pdf
+pandoc chapters/*.md --variable title="Fisher's Discriminant Analysis" --variable author="Supraja JV" --variable date="Dec 2018" --variable fontsize=12pt --toc-depth=1 -V documentclass=report -o fda.pdf
 
 
 # creates book as a 'report' (with references)
