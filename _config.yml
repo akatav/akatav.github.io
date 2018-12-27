@@ -2,3 +2,4 @@ author: Supraja J V
 description: Fisher's Discriminant Analysis
 highlighter: pygments
 markdown: kramdown
+mathjax: true
