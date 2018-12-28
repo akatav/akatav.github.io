@@ -23,13 +23,29 @@ As in Fig1 where _d=2_ and _K=2_, Fisher's discriminant analysis aims to:
 2. Orthogonally project the original dataset _X_ onto _L_
 3. Seprate the data points belonging to the K different classes using a threshold. 
 
-Before going any further, let us also discuss the number of Fisher's discriminants needed as _K_ increases. COnsider that, in _d=2_, there are _K=3_ classes of data samples. Will 1 Fisher's discriminant still suffice to classify the data samples into 3 classes ? Take the example of Fig2. 
+Before going any further, let us also discuss the number of Fisher's discriminants needed as _K_ increases. 
+
+## Number of Fisher's discriminants required
+
+Consider that, in _d=2_, there are _K=3_ classes of data samples. Will 1 Fisher's discriminant still suffice to classify the data samples into 3 classes ? Take the example of Fig2. 
 
 Figure 2:
 
 ![Scatterplot-2](images/Fig2.png "Fisher's discriminants")
 
-Dropping perpendicular lines from the blue, green and red points onto the yellow line seperates the red points clearly from the rest of the points. But there is some overlap between the blue and green points. Instead, imagine dropping a perpendicular line from the points to the purple line. Here, the blue and the green points are seperated perfectly. So, in this case, where K=3, we need 2 discriminants to seperate the 3 groups of points. Actually, given data X in dimension _d_ belonging to _K_ output classes, the minimum number of Fisher's discriminants needed to seprate the _K_ groups of samples is $$min(K-1,d)$$. 
+Dropping perpendicular lines from the blue, green and red points onto the yellow line seperates the red points clearly from the rest of the points. But there is some overlap between the blue and green points. Instead, imagine dropping a perpendicular line from the points to the purple line. Here, the blue and the green points are seperated perfectly. So, in this case, where K=3, we need 2 discriminants to seperate the 3 groups of points. Actually, given data X in dimension _d_ belonging to _K_ output classes, the minimum number of Fisher's discriminants needed to seperate the _K_ groups of samples is $$min(K-1,d)$$. For the sake of understanding, the reader is encouraged to experiment with _K>3_ in _d=2_ and find out the number of Fisher's discriminants necessary. 
+
+
+## A Visual intuition for FDA
+
+The core idea behind Fisher's is that, if there are such discriminant(s) that provide good seperability to the data, then the discriminant(s) can do so by maximizing this seperatedness between each group of points while making each individual group of points as compact as possible. Maximizing seperatedness between different groups of points of different classes is akin to maximizing the distances between the mean of each group of points. Making each group of points compact is akin to minimizing the euclidean distances between points in a group andd their respective mean. We will see more on this later. 
+
+## A formal definition of FDA
+
+Given dataset _X_ in _d_ dimensions where each _x~i_ has one of _K_ output class labels. Fisher's discriminant analysis aims to find a suitable _w_ such that $$_X.w_$$ will orthogonally project _X_ onto a lower dimensional subspace _Y_ in dimension $$d'=min(K-1,d)$$. So, FDA tries to find _w_ such that:
+
+$$Y=X.w$$
+
 
 
 The main motivating trigger behind this book has been my long standing obsession to understand the historical development of Partial Least Squares methods in order to find the who's, why's, what's, when's, and how's. It is the result of an intermittent 10 year quest, tracking bits and pieces of information in order to assemble the story of such methods. Moreover, this text is my third iteration on the subject, following two of my previous works: chapter 2 _"Historical Review"_ of my PhD thesis ([Sanchez, 2009](references.html/#Sanchez2009)), and the appendix _"A Historical Overview of PLS-PM"_ from my book _PLS Path Modeling with R_ ([Sanchez, 2013](references.html/#Sanchez2013)). 
