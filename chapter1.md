@@ -6,15 +6,31 @@ title: "introduction"
 # Introduction
 
 
-Fisher's Discriminant Analysis (hitherto referred to as _FDA_) is a dimensionality reduction method in statistical data analysis. In this article, we aim to discuss FDA in detail, both mathematically and implementation-wise. Given a labelled dataset _D_ in _d_ dimensions, d>=2, with _K_ output class labels, _FDA_ aims to find a _discriminant_ in a lower dimension $$d1\<\d$$ onto which _D_ is projected. The projected data points belonging to the _K_ classes are well seperated on this discriminant. 
+Fisher's Discriminant Analysis (hitherto referred to as _FDA_) is a dimensionality reduction method in statistical data analysis. In this article, we aim to discuss FDA in detail, both mathematically and implementation-wise. Given a labelled dataset _D_ in _d_ dimensions, d>=2, with _K_ output class labels, _FDA_ aims to find a _discriminant_ in a lower dimension $$d1\<\d$$ onto which _D_ is projected. The projected data points belonging to the _K_ classes are easily seperated on this discriminant. 
 
-Figure 1: 
+Figure 1:
+
 ![Scatterplot](images/Fig1.png "Fisher's discriminant")
 
 Imagine dropping a perpendicular line from all the points onto the black line. The red points would be clearly seperated from the blue points on this line. 
 Now imagine dropping a perpendicular line from all the points onto the green line. The red points and the blue points will not be as well seperated. So, the black line is a better discriminant in this case. 
 
-A saga is a story of heroic events and achievements of a personage or family, typically written in medieval Icelandic or Old Norse in the form of a prose narrative. According to Wikipedia, the term saga originates from the Norse "saga" and refers to "what is said" or "story, tale, history." The closest term in English to the word saga is "saw" (as in _old saying_). In this regard, I'm using the word Saga to play with its meaning, and convey the ideas of history, story, and narrative of events associated to Partial Least Squares methods.
+Fisher's discriminant analysis was first introduced by R.A. Fisher. ([Fisher, 1936]references.html/#Fisher1936)). Fisher's discriminant analysis is a supervised data analysis technique. This means that the data samples need to be labelled as belonging to one of the output classes. Formally, given dataset _X_ having _n_ samples and _d_ features (or dimensions). Each sample belongs to one of _K_ output labels. _X_ is a $$(n,d)$$ matrix. Y is the output label vector of length $$(n,1)$$. 
+
+As in Fig1 where _d=2_ and _K=2_, Fisher's discriminant analysis aims to:
+
+1. Find the Fisher's discriminant(s) which is a line _L_ in this case
+2. Orthogonally project the original dataset _X_ onto _L_
+3. Seprate the data points belonging to the K different classes using a threshold. 
+
+Before going any further, let us also discuss the number of Fisher's discriminants needed as _K_ increases. COnsider that, in _d=2_, there are _K=3_ classes of data samples. Will 1 Fisher's discriminant still suffice to classify the data samples into 3 classes ? Take the example of Fig2. 
+
+Figure 2:
+
+![Scatterplot-2](images/Fig2.png "Fisher's discriminants")
+
+Dropping perpendicular lines from the blue, green and red points onto the yellow line seperates the red points clearly from the rest of the points. But there is some overlap between the blue and green points. Instead, imagine dropping a perpendicular line from the points to the purple line. Here, the blue and the green points are seperated perfectly. So, in this case, where K=3, we need 2 discriminants to seperate the 3 groups of points. Actually, given data X in dimension _d_ belonging to _K_ output classes, the minimum number of Fisher's discriminants needed to seprate the _K_ groups of samples is $$min(K-1,d)$$. 
+
 
 The main motivating trigger behind this book has been my long standing obsession to understand the historical development of Partial Least Squares methods in order to find the who's, why's, what's, when's, and how's. It is the result of an intermittent 10 year quest, tracking bits and pieces of information in order to assemble the story of such methods. Moreover, this text is my third iteration on the subject, following two of my previous works: chapter 2 _"Historical Review"_ of my PhD thesis ([Sanchez, 2009](references.html/#Sanchez2009)), and the appendix _"A Historical Overview of PLS-PM"_ from my book _PLS Path Modeling with R_ ([Sanchez, 2013](references.html/#Sanchez2013)). 
 

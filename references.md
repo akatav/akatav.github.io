@@ -5,7 +5,7 @@ title: "References"
 
 # References
 
-<a name="Abdietal2013"></a> Abdi et al (2013) _New Perspectives in Partial Least Squares and Related Methods_. Edited by Abdi, H., Chin, W.W., Esposito Vinzi, V., Russolillo, G., Trinchera, L. Springer.
+<a name="Fisher1936"></a> R.A. Fisher (1936) _The Use of Multiple Measurements in Taxonomic Problems_. Annals of Eugenics.
 
 <a name="Bayne1992"></a> Bayne, C. K. (1992) "Latent Variable Path Modeling with Partial Least Squares by Jan-Bernd Lohmöller - Review." _Technometrics_. Vol. 34, No. 1, 110-111..
 
