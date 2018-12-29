@@ -4,4 +4,4 @@ highlighter: pygments
 markdown: kramdown
 mathjax: true
 
-theme: jekyll-theme-cayman
+theme: jekyll-theme-minimal
