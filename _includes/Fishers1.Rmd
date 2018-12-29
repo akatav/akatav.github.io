@@ -15,7 +15,6 @@ person_ggplot <- ggplot(data = df, aes(x = Person1, y = Person2, colour=factor(c
 
 person_ggplot <- person_ggplot + geom_point(alpha = 1/3)  # alpha b/c of overplotting
 person_ggplot <- person_ggplot + coord_fixed()
-
 ```
 
 In-line code is great for things like summary statistics.  The mean miles per gallon for the `mtcars` data set is `r mean(mtcars$mpg)`.

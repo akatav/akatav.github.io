@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <title>Fisher's Discriminant Analysis | kidding</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="keywords" content="pls, partial least squares, path modeling, plspm, pls regression, herman wold, svante wold, saga pls" />
+        <meta name="author" content="Gaston Sanchez" />
+        <meta name="description" content="The Saga of PLS" />
+        <meta name="viewport" content="width=640px, initial-scale=1.0, maximum-scale=1.0">	
+        <!-- favicon -->
+        <link rel="shortcut icon" href="/images/favicon.ico">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen, projection" />
+        <script type="text/javascript" async 
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?
+config=TeX-AMS-MML_HTMLorMML"></script>
+	</head>
+	<body>
+
+		
+<header>
+	<h1>
+		<a href="/">Fisher's Discriminant Analysis</a>
+	</h1>
+	<br>
+	<small>
+		by <a href="http://linkedin.com" target="_blank">Supraja JV</a>
+	</small>
+</header>
+
+
+		<nav>
+	<ol>
+		<li>
+			<a href="chapter1.html" class="">Chapter 1
+			<span>Introduction</span> 
+			</a>
+		</li>
+		<li>
+			<a href="chapter2.html" class="active">Chapter 2
+			<span>You've&nbsp;got&nbsp;to&nbsp;be&nbsp;kidding&nbsp;me&nbsp;</span> 
+			</a>
+		</li>
+		<li>
+			<a href="chapter3.html" class="">Chapter 3
+			<span>A&nbsp;little&nbsp;bit&nbsp;about&nbsp;Partial&nbsp;Least&nbsp;Squares</span> 
+			</a>
+		</li>
+		<li>
+			<a href="chapter4.html" class="">Chapter 4
+			<span>Commented&nbsp;Timeline</span> 
+			</a>
+		</li>
+		<li>
+			<a href="chapter5.html" class="">Chapter 5
+			<span>The&nbsp;Econometrician</span> 
+			</a>
+		</li>
+		<li>
+			<a href="chapter6.html" class="">Chapter 6
+			<span>The&nbsp;Philosopher&nbsp;of&nbsp;Science</span> 
+			</a>
+		</li>
+		<li>
+			<a href="chapter7.html" class="">Chapter 7
+			<span>The&nbsp;Soft&nbsp;Modeler</span> 
+			</a>
+		</li>
+		<li>
+			<a href="chapter8.html" class="">Chapter 8
+			<span>The&nbsp;Chemometrician</span> 
+			</a>
+		</li>
+		<li>
+			<a href="chapter9.html" class="">Chapter 9
+			<span>The&nbsp;Renaissance&nbsp;of&nbsp;Herman's&nbsp;PLS</span> 
+			</a>
+		</li>
+		<li>
+			<a href="chapter10.html" class="">Chapter 10
+			<span>Critical&nbsp;Review</span> 
+			</a>
+		</li>
+		<li>
+			<a href="chapter11.html" class="">Chapter 11
+			<span>Conclusions&nbsp;and&nbsp;Final&nbsp;Remarks</span> 
+			</a>
+		</li>
+		<li>
+			<a href="references.html" class="">References
+			<span>References</span>
+			</a>
+		</li>
+	</ol>
+</nav>
+	
+
+<article>
+
+<h1 id="youve-got-to-be-kidding-me">You’ve got to be kidding me</h1>
+
+<p>The first time I heard about PLS was in October 2004 when I first met professor Tomàs Aluja—my former PhD adviser. I had just recently moved to Barcelona to start my graduate studies in statistics, and I had been designated Tomàs’s new mentee. At the end of our first meeting when I was about to leave his office, Tomàs asked me a seemingly intrascendental question: “Have you ever heard about PLS?”</p>
+
+<p>“P. L. S.?”</p>
+
+<p>I repeated those letters to myself without pronouncing any words. Fearing to give a bad impression to my brand new mentor, I quickly scanned the hard-disk of my brain in search for any hint. Unsuccessfully struggling to find any answer, I ended up with a perfect clueless expression in my face.</p>
+
+<p>I had no idea what PLS was or what it meant.</p>
+
+<p>The reason why Tomàs asked me about PLS was because he was in charge of organizing <em>PLS’05 - The 4th International Symposium on Partial Least Squares and Related Methods</em> for the following year (September, 2005). He wanted to know if I would be willing to help him with some of the organizational details for the symposium. Little did I know the tremendous impact those three mysterious letters would have in the coming years of my analytics career.</p>
+
+<p>I became involved with PLS in a very unintended way. One of my first duties as part of the <em>PLS’05</em> staff, was being in charge of receiving the abstracts and paper submissions for the symposium, making sure they complied with the strict guidelines-for-authors. I spent my time sending emails and pestering authors kindly requesting them to fix the page layout, change the font size, reduce the number of pages, and things like that. One of the orders Tomàs gave me was to read all the papers. Grudgingly, I followed his command and sucked it all up. However, <em>reading</em> doesn’t necessarily mean <em>understanding</em>. From all the submitted papers, I was able to understand three of them… at the most. And even then my understanding was very superficial. The common thing about those papers was their very applied and digestable examples that prevented me from getting lost with all the unintelligible details. By the way, this is NOT how anyone should ever try to learn about PLS methods.</p>
+
+<p>I had a more formal and intensive introduction to the PLS framework with Tomàs’s course “Advanced Methods for Multivariate Data Analysis.” The outline of the course was based on the great book <em>La Régression PLS: Théorie et Pratique</em> by Michel (<a href="references.html/#Tenenhaus1998">Tenenhaus, 1998</a>). The book is a marvelous piece, with Michel’s unique eloquent writing style, explaining things in a very detailed way, using a clear notation, and full of examples and graphics. I guess everything would have been fine if it wasn’t for the fact that I had a very limited knowledge of French. Which it only makes it harder when you’re not only a PLS novice but also a French-language beginner. Luckily, <em>google translate</em> was already available at that time, providing a considerable help in deciphering some of the book’s content.</p>
+
+<p>Tomàs’s class was a very hands-on course. Each student was responsible of studying a chapter from the book, programming the corresponding method in R, and giving a lecture to the rest of the class. I got to present chapter 8—PLS Regression for one response variable. Tomàs kept for himself the presentation of the PLS Path Modeling (PLS-PM) approach for the last lecture. That day he introduced the technique with an example using the famous Russett dataset, and then he proceeded to talk about how the method worked. When he got to the description of the PLS-PM algorithm, however, I was having a hard time understanding all the steps. The worst part was my fruitless attempt trying to connect the PLS regression algorithms with the PLS-PM algorithm. The question that was driving me crazy was: Where on earth were the PLS regressions in the PLS-PM algorithm? I raised my hand and asked Tomàs if he could please show the rest of the class where the PLS regressions were. To my surprise, his answer was even more disconcerting: “Regressions? What regressions? This has nothing to do with PLS Regression. This is PLS Path Modeling.” I’m pretty sure Tomàs does not even remember these details. But they definitely had a profound impact on me.</p>
+
+<p>All I remember thinking was something like: “You’ve got to be kidding me, this PLS stuff makes no sense whatsoever!” I was definitely biting off more than I was able to chew.</p>
+
+<p>I won’t lie to you. My introduction to the PLS world was not a smooth one. Besides my very limited knowledge of French, another difficulty was my equally limited knowledge of the techniques in Michel’s book like Canonical Correlation Analysis, Redundancy Analysis, and Inter-Battery Factor Analysis. One of the morals from this experience was that I needed to learn French; the other moral was that this was also not the best way to start learning about PLS from scratch.</p>
+
+<p>I felt so confused and disoriented, but eventually I managed to my find way out through the PLS labyrinth over the following years. My biggest consolation, to my suprise, was when I heard Michel Tenenhaus story in front of the audience at one of the PLS Research Workshops in Paris, 2009. He told us about his PLS tale: having started studying PLS regression, he was later referred to PLS Path Modeling, only to find out that, initially, nothing made sense to him. I was so relieved in knowing that I was not the only one with the same big confussion. Even a PLS <em>jedi master</em> like Michel had faced the same puzzle I had struggled with.</p>
+
+<p>I became obsessed with the story behind PLS since the very first moment I started to work on my PhD dissertation about PLS Path Modeling. As a grad student in the fall of 2005, I remember googling about “Partial Least Squares” and getting links back that talked about PLS Regression. When I tried to be more specific and searched for “Partial Least Squares Path Modeling,” there was nothing but again PLS Regression retrieved results only. Why was there almost nothing about PLS Path Modeling? There were virtually no resources about the original works by Herman Wold, or the so-called Structural Equation Models via PLS approach. Moreover, most of the available resources on the Web were basically chemometrics-related material. It is amazing to see how much things have changed in just a decade. But it hasn’t been easy. It has required a titanic effort coordinating the work of a large number of scholars. Gradually, the barriers have been pushed in order to revive a methodological framework that was heading toward the annals of statistical methods that sadly end up in the dead archives of university libraries.</p>
+
+<p>One of the very first things I knew I wanted to do was to find out more about the history of PLS methods. The main resource I had in my hands was a tutorial on PLS Path Modeling, which was basically a draft for the famous article <em>“PLS Path Modeling”</em> by Tenenhaus et al (2005). I started tracking the references listed in the tutorial, and I was happy to find that the Economics and Math libraries of the University of Barcelona had copies of the two volumes <em>Systems under indirect observation: Causality, structure, prediction</em>, the intimidating treatise <em>Latent Variable Path Modeling with Partial Least Squares</em> (<a href="references.html/#Lohmoller1989">Lohmoller, 1989</a>), the <em>Encyclopedia of Statistical Sciences</em> with the entry of PLS (<a href="references.html/#Wold1985a">Wold, 1985a</a>), and <em>The Making of Statisticians</em> containing the autobiographical essay of Herman (<a href="references.html/#Wold1982a">Wold, 1982a</a>). Little by little I started to dig out and uncover fragments of a fascinating story.</p>
+
+<p>All I wanted was to be able to answer the <em>who</em>, <em>when</em>, <em>how</em>, and <em>why</em>. Who created PLS? When was it developed? How was the development process? And why? How does something such as PLS is developed? What were the circumstances that gave birth to that framework? In this sense, the quest became a quest not only about PLS itself but also about its creator, about his mind, his ideas, and surrounding context. Among all my inquires, one question has remained for years in the back burner of my head: Why was PLS Path Modeling not that well known? Think about it. By 2005, the first works about PLS had already been present for almost 30 years! Yet, having access to those references was—and still is—ridiculously difficult. I think I have now most of the elements to answer the questions that have been lingering since that fall of 2005.</p>
+
+<p><a class="continue" href="chapter3.html">Next chapter</a></p>
+
+
+
+</article>
+
+
+<footer>
+	<p>	The Saga of PLS <br>
+	<small>
+	&copy; <a href="http://gastonsanchez.com" target="_blank">Gaston Sanchez</a>. &nbsp;&nbsp;Some rights reserved.
+	</small></p>
+</footer>
+
+	
+
+
+
+	</body>
+</html>

@@ -1,62 +1,16 @@
----
-layout: page
-title: "introduction"
----
-
 # Introduction
 
+Fisher's Discriminant Analysis (hitherto referred to as _FDA_) is a dimensionality reduction method in statistical data analysis. In this article, we aim to discuss FDA in detail, both mathematically and implementation-wise. Given a labelled dataset _D_ in _d_ dimensions, d>=2, with _K_ output class labels, _FDA_ aims to find a _discriminant_ in a lower dimension _d'_ $\le$ _d_ onto which _D_ is projected. The projected data points belonging to the _K_ classes are well seperated on this discriminant. 
 
-Fisher's Discriminant Analysis (hitherto referred to as _FDA_) is a dimensionality reduction method in statistical data analysis. In this article, we aim to discuss FDA in detail, both mathematically and implementation-wise. Given a labelled dataset _D_ in _d_ dimensions, $$d>=2$$, with _K_ output class labels, _FDA_ aims to find a _discriminant_ in a lower dimension $$d1 < d$$ onto which _D_ is projected. The projected data points belonging to the _K_ classes are easily seperated on this discriminant. 
-
-Figure 1:
-
+Figure 1: 
 ![Scatterplot](images/Fig1.png "Fisher's discriminant")
 
 Imagine dropping a perpendicular line from all the points onto the black line. The red points would be clearly seperated from the blue points on this line. 
 Now imagine dropping a perpendicular line from all the points onto the green line. The red points and the blue points will not be as well seperated. So, the black line is a better discriminant in this case. 
 
-Fisher's discriminant analysis was first introduced by R.A. Fisher. [Fisher, 1936]({%references.html/#Fisher1936%}). Fisher's discriminant analysis is a supervised data analysis technique. This means that the data samples need to be labelled as belonging to one of the output classes. Formally, given dataset _X_ having _n_ samples and _d_ features (or dimensions). Each sample belongs to one of _K_ output labels. _X_ is a $$(n,d)$$ matrix. Y is the output label vector of length $$(n,1)$$. 
+A saga is a story of heroic events and achievements of a personage or family, typically written in medieval Icelandic or Old Norse in the form of a prose narrative. According to Wikipedia, the term saga originates from the Norse "saga" and refers to "what is said" or "story, tale, history." The closest term in English to the word saga is "saw" (as in _old saying_). In this regard, I'm using the word Saga to play with its meaning, and convey the ideas of history, story, and narrative of events associated to Partial Least Squares methods.
 
-As in Fig1 where _d=2_ and _K=2_, Fisher's discriminant analysis aims to:
-
-1. Find the Fisher's discriminant(s) which is a line _L_ in this case
-2. Orthogonally project the original dataset _X_ onto _L_
-3. Seprate the data points belonging to the K different classes using a threshold. 
-
-Before going any further, let us also discuss the number of Fisher's discriminants needed as _K_ increases. 
-
-## Number of Fisher's discriminants required
-
-Consider that, in _d=2_, there are _K=3_ classes of data samples. Will 1 Fisher's discriminant still suffice to classify the data samples into 3 classes ? Take the example of Fig2. 
-
-Figure 2:
-
-![Scatterplot-2](images/Fig2.png "Fisher's discriminants")
-
-Dropping perpendicular lines from the blue, green and red points onto the yellow line seperates the red points clearly from the rest of the points. But there is some overlap between the blue and green points. Instead, imagine dropping a perpendicular line from the points to the purple line. Here, the blue and the green points are seperated perfectly. So, in this case, where K=3, we need 2 discriminants to seperate the 3 groups of points. Actually, given data X in dimension _d_ belonging to _K_ output classes, the minimum number of Fisher's discriminants needed to seperate the _K_ groups of samples is $$min(K-1,d)$$. For the sake of understanding, the reader is encouraged to experiment with _K>3_ in _d=2_ and find out the number of Fisher's discriminants necessary. 
-
-## A formal definition of FDA
-
-Given dataset _X_ in _d_ dimensions where each data sample $$x~i$$ is assigned one of _K_ output class labels. Fisher's discriminant analysis aims to find a suitable _w_ such that $$_X.w_$$ will orthogonally project _X_ onto a lower dimensional subspace _Y_ in dimension $$d'=min(K-1,d)$$. FDA tries to find _w_ such that:
-
-$$Y=X.w$$
-
-_X_ is a $$(n,d)$$ dimension matrix. _w_is a $$(d, min(K-1,d))$$ dimensional matrix. Thus, _Y_ is a $$(n, min(K-1,d))$$ matrix of orthogonal projections of the original dataset _X_ onto the Fisher's discriminant _w_. 
-
-
-## A Visual intuition for FDA
-
-The core idea behind Fisher's is that, if there are such discriminant(s) that provide good seperability to the data, then the discriminant(s) can do so by maximizing this seperatedness between each group of points while making each individual group of points as compact as possible. Maximizing seperatedness between different groups of points of different classes is akin to maximizing the distances between the mean of each group of points. Making each group of points compact is akin to minimizing the euclidean distances between points in a group andd their respective mean. We will see more on this below. 
-
-## Derivation of Fisher's discriminant(s)
-
-Let $$S~T$$ be the overall mean of the dataset _X_. Let $$X~i$$ be the data belonging to the $$i^th$$ output label, $$i \in (1,K)$$. 
-
-The main motivating trigger behind this book has been my long standing obsession to understand the historical development of Partial Least Squares methods in order to find the who's, why's, what's, when's, and how's. It is the result of an intermittent 10 year quest, tracking bits and pieces of information in order to assemble the story of such methods. Moreover, this text is my third iteration on the subject, following two of my previous works: chapter 2 _"Historical Review"_ of my PhD thesis ([Sanchez, 2009](references.html/#Sanchez2009)), and the appendix _"A Historical Overview of PLS-PM"_ from my book _PLS Path Modeling with R_ ([Sanchez, 2013](references.html/#Sanchez2013)). 
-
-{% include Fishers1.html %}
-
-
+The main motivating trigger behind this book has been my long standing obsession to understand the historical development of Partial Least Squares methods in order to find the who's, why's, what's, when's, and how's. It is the result of an intermittent 10 year quest, tracking bits and pieces of information in order to assemble the story of such methods. Moreover, this text is my third iteration on the subject, following two of my previous works: chapter 2 _"Historical Review"_ of my PhD thesis [@Sanchez2009], and the appendix _"A Historical Overview of PLS-PM"_ from my book _PLS Path Modeling with R_ [@Sanchez2013]. 
 
 This is NOT a technical book. It doesn't cover theory, methodological aspects, nor technical details of how the various PLS methods work (no discussions about algebra, computational steps, interpretation issues, etc.). This is also not a book written with a particular reader in mind. Instead, I've written its content to organize the vast material I've collected so far, which includes not only information from papers, chapters, proceedings, and books, but also thoughts, memories, analysis, interpretations, and personal opinions. Having said that, I imagine that this book can be used as a __companion reading__ for any course, workshop, or seminar about PLS methods, expecting to be enjoyed by anyone interested on this topic. Regardless of whether you're just taking your first steps on the PLS arena, or if you've already traveled a long way around PLS territory, I'm sure you'll find some value in the content of this work.
 
@@ -65,7 +19,7 @@ By writing this book, my aim is to shed some light about the teaching and unders
 
 ## The proof of the pudding
 
-In his classic _"Soft Modeling: The Basic Design and Some Extensions,"_ Herman  ([Wold, 1982b](references.html/#Wold1982b)), includes the following footnote on page 24: 
+In his classic _"Soft Modeling: The Basic Design and Some Extensions,"_ Herman  [@Wold1982b], includes the following footnote on page 24: 
 
 > Most nonlinear iterative techniques of estimation are lacking an analytic proof of convergence. The proof of the pudding is in the eating. 
 
@@ -101,6 +55,4 @@ Last but not least, you wouldn't be reading this book if it wasn't for the patie
 
 Berkeley, California. <br>
 April 2015.
-
-<a class="continue" href="chapter2.html">Next chapter</a>
 
