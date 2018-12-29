@@ -35,20 +35,26 @@ Figure 2:
 
 Dropping perpendicular lines from the blue, green and red points onto the yellow line seperates the red points clearly from the rest of the points. But there is some overlap between the blue and green points. Instead, imagine dropping a perpendicular line from the points to the purple line. Here, the blue and the green points are seperated perfectly. So, in this case, where K=3, we need 2 discriminants to seperate the 3 groups of points. Actually, given data X in dimension _d_ belonging to _K_ output classes, the minimum number of Fisher's discriminants needed to seperate the _K_ groups of samples is $$min(K-1,d)$$. For the sake of understanding, the reader is encouraged to experiment with _K>3_ in _d=2_ and find out the number of Fisher's discriminants necessary. 
 
-
-## A Visual intuition for FDA
-
-The core idea behind Fisher's is that, if there are such discriminant(s) that provide good seperability to the data, then the discriminant(s) can do so by maximizing this seperatedness between each group of points while making each individual group of points as compact as possible. Maximizing seperatedness between different groups of points of different classes is akin to maximizing the distances between the mean of each group of points. Making each group of points compact is akin to minimizing the euclidean distances between points in a group andd their respective mean. We will see more on this later. 
-
 ## A formal definition of FDA
 
-Given dataset _X_ in _d_ dimensions where each _x~i_ has one of _K_ output class labels. Fisher's discriminant analysis aims to find a suitable _w_ such that $$_X.w_$$ will orthogonally project _X_ onto a lower dimensional subspace _Y_ in dimension $$d'=min(K-1,d)$$. So, FDA tries to find _w_ such that:
+Given dataset _X_ in _d_ dimensions where each data sample $$x~i$$ is assigned one of _K_ output class labels. Fisher's discriminant analysis aims to find a suitable _w_ such that $$_X.w_$$ will orthogonally project _X_ onto a lower dimensional subspace _Y_ in dimension $$d'=min(K-1,d)$$. FDA tries to find _w_ such that:
 
 $$Y=X.w$$
 
+_X_ is a $$(n,d)$$ dimension matrix. _w_is a $$(d, min(K-1,d))$$ dimensional matrix. Thus, _Y_ is a $$(n, min(K-1,d))$$ matrix of orthogonal projections of the original dataset _X_ onto the Fisher's discriminant _w_. 
 
+
+## A Visual intuition for FDA
+
+The core idea behind Fisher's is that, if there are such discriminant(s) that provide good seperability to the data, then the discriminant(s) can do so by maximizing this seperatedness between each group of points while making each individual group of points as compact as possible. Maximizing seperatedness between different groups of points of different classes is akin to maximizing the distances between the mean of each group of points. Making each group of points compact is akin to minimizing the euclidean distances between points in a group andd their respective mean. We will see more on this below. 
+
+## Derivation of Fisher's discriminant(s)
+
+Let $$S~T$$ be the overall mean of the dataset _X_. Let $$X~i$$ be the data belonging to the $$i^th$$ output label, $$i \in (1,K)$$. 
 
 The main motivating trigger behind this book has been my long standing obsession to understand the historical development of Partial Least Squares methods in order to find the who's, why's, what's, when's, and how's. It is the result of an intermittent 10 year quest, tracking bits and pieces of information in order to assemble the story of such methods. Moreover, this text is my third iteration on the subject, following two of my previous works: chapter 2 _"Historical Review"_ of my PhD thesis ([Sanchez, 2009](references.html/#Sanchez2009)), and the appendix _"A Historical Overview of PLS-PM"_ from my book _PLS Path Modeling with R_ ([Sanchez, 2013](references.html/#Sanchez2013)). 
+
+{% include 1-example.html %}
 
 This is NOT a technical book. It doesn't cover theory, methodological aspects, nor technical details of how the various PLS methods work (no discussions about algebra, computational steps, interpretation issues, etc.). This is also not a book written with a particular reader in mind. Instead, I've written its content to organize the vast material I've collected so far, which includes not only information from papers, chapters, proceedings, and books, but also thoughts, memories, analysis, interpretations, and personal opinions. Having said that, I imagine that this book can be used as a __companion reading__ for any course, workshop, or seminar about PLS methods, expecting to be enjoyed by anyone interested on this topic. Regardless of whether you're just taking your first steps on the PLS arena, or if you've already traveled a long way around PLS territory, I'm sure you'll find some value in the content of this work.
 
