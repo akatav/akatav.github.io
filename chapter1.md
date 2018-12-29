@@ -54,7 +54,7 @@ Let $$S~T$$ be the overall mean of the dataset _X_. Let $$X~i$$ be the data belo
 
 The main motivating trigger behind this book has been my long standing obsession to understand the historical development of Partial Least Squares methods in order to find the who's, why's, what's, when's, and how's. It is the result of an intermittent 10 year quest, tracking bits and pieces of information in order to assemble the story of such methods. Moreover, this text is my third iteration on the subject, following two of my previous works: chapter 2 _"Historical Review"_ of my PhD thesis ([Sanchez, 2009](references.html/#Sanchez2009)), and the appendix _"A Historical Overview of PLS-PM"_ from my book _PLS Path Modeling with R_ ([Sanchez, 2013](references.html/#Sanchez2013)). 
 
-{% include 1-example.html %}
+{% include Fishers1.html %}
 
 This is NOT a technical book. It doesn't cover theory, methodological aspects, nor technical details of how the various PLS methods work (no discussions about algebra, computational steps, interpretation issues, etc.). This is also not a book written with a particular reader in mind. Instead, I've written its content to organize the vast material I've collected so far, which includes not only information from papers, chapters, proceedings, and books, but also thoughts, memories, analysis, interpretations, and personal opinions. Having said that, I imagine that this book can be used as a __companion reading__ for any course, workshop, or seminar about PLS methods, expecting to be enjoyed by anyone interested on this topic. Regardless of whether you're just taking your first steps on the PLS arena, or if you've already traveled a long way around PLS territory, I'm sure you'll find some value in the content of this work.
 
