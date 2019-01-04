@@ -1,18 +1,15 @@
 ---
 layout: page
-title: "econometrician"
+title: "Existing implementations of FDA"
 ---
 
-# The Econometrician
+# Implementations
 
-The father of Partial Least Squares was the great Swedish statistician and econometrician Herman Wold. In fact, his full name was Herman Ole Andreas Wold, and he was not born in Sweden but in the neighbor country of Norway. He was born on December 25th, 1908, as the sixth child of Edvard and Betsy Wold, in the small town of Skien, the administrative center of Telemark county, 133 kilometers (82 miles) south of Oslo. He spent there his first three years of life until 1912 when his parents decided to move to Sweden. Because of harsh economic times in Norway, the Wold family, except the two oldest children, relocated to Lidköping, a small town southwestern Sweden, near Stockholm. Here Edvard Wold---a skilled furrier---made a living designing and making leather coats lined with fur, an essential piece of apparel for the cold Scandinavian weather.
-
-Herman Wold grew up and went to elementary school in Lidköping. However, since there was no high school in town at that time, he had to attend high school in Skara, one of the oldest cities in Sweden, with a long educational and ecclesiastical history---40 kilometers (25 miles) away from Lidköping. At young age, Herman showed a good talent for mathematics, and after high school he enrolled at the University of Stockholm in 1927 where he studied physics, mathematics, and economics. There he met Harald Cramér, the renowned Swedish professor of Mathematics and Statistics who made Herman change plans. "I was greatly impressed by him", Herman said, "and interested in his work." Since Wold was very interested just in statistics he decided to stay under the tutelage of Cramér learning about elements of probability, statistics, and risk theory. In 1930 Herman finished his degree and he took his first job in the insurance industry where he started to do actuarial work. 
-
-Herman's interest in statistics was greater and deeper than his intention to stay in the actuarial field, and so he decided to go back to academia and get a PhD degree. Once again under the mentoring of Harald Cramér, Herman took courses on stochastic processes and time series. Moreover, he soon got caught up in the excitement surrounding the emergence of probability theory recently introduced by the famous Russian mathematician Andrey Kolmogorov.  
+_DiscriMiner_ is an R package that implements Fisher's discriminants. We will discuss the code in this package in some detail and use it to classify the IRIS and MNIST datasets. 
 
 
-## Time Series Studies (1932-1938)
+
+## Implementations in Matlab
 
 In 1938 Wold received his doctorate with the thesis _A Study in the Analysis of Stationary Time Series_. For his dissertation, Wold did his research on stationary stochastic processes, studying the one-step prediction of a time series, and proposing his _Decomposition Theorem_ ---one of the most famous results by Wold, and one of the essential elements in the foundation of time-series analysis and forecasting. From the historical point of view, it is worth mentioning the use that Wold made of the least squares principle for his doctoral work. Herman studied the one-step prediction of a time series using the principle of least squares. Basically, Wold proved that any stationary time series can be partitioned into a deterministic component precisely predictable from its past, plus a random component which can be modeled as a weighted sum of "innovations." In simple terms, given a series of values at different times $$x_t$$, $$x$$, $$x_{t-1}$$, $$x_{t-2}$$, $$\dots$$, $$x_{t-r}$$, the decomposition theorem is used to express $$x_t$$ in terms of the preceding values as a weighted sum: 
 

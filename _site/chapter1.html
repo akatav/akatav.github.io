@@ -25,7 +25,7 @@ config=TeX-AMS-MML_HTMLorMML"></script>
 	</h1>
 	<br>
 	<small>
-		by <a href="http://linkedin.com" target="_blank">SuprajaJV</a>
+		by <a href="http://linkedin.com" target="_blank">SVenka</a>
 	</small>
 </header>
 
@@ -34,42 +34,42 @@ config=TeX-AMS-MML_HTMLorMML"></script>
 	<ol>
 		<li>
 			<a href="chapter1.html" class="active">Chapter 1
-			<span>What&nbsp;is&nbsp;this&nbsp;article&nbsp;about?</span> 
+			<span>A&nbsp;simple&nbsp;introduction</span> 
 			</a>
 		</li>
 		<li>
 			<a href="chapter2.html" class="">Chapter 2
-			<span>Introduction&nbsp;to&nbsp;Fisher’s&nbsp;Discriminant&nbsp;Analysis</span> 
+			<span>Intuition</span> 
 			</a>
 		</li>
 		<li>
 			<a href="chapter3.html" class="">Chapter 3
-			<span>Problem&nbsp;Statement</span> 
+			<span>Fisher's&nbsp;discriminant</span> 
 			</a>
 		</li>
 		<li>
 			<a href="chapter4.html" class="">Chapter 4
-			<span>Mathematical&nbsp;derivation&nbsp;of&nbsp;Fisher’s&nbsp;discriminant</span> 
+			<span>Mathematical&nbsp;derivation</span> 
 			</a>
 		</li>
 		<li>
 			<a href="chapter5.html" class="">Chapter 5
-			<span>A&nbsp;review&nbsp;of&nbsp;implementations&nbsp;in&nbsp;R,&nbsp;Octave&nbsp;and&nbsp;Python</span> 
+			<span>Existing&nbsp;implementations</span> 
 			</a>
 		</li>
 		<li>
 			<a href="chapter6.html" class="">Chapter 6
-			<span>Implementations&nbsp;in&nbsp;more&nbsp;detail</span> 
+			<span>Code&nbsp;review</span> 
 			</a>
 		</li>
 		<li>
 			<a href="chapter7.html" class="">Chapter 7
-			<span>An&nbsp;example&nbsp;using&nbsp;IRIS&nbsp;dataset</span> 
+			<span>Example&nbsp;1</span> 
 			</a>
 		</li>
 		<li>
 			<a href="chapter8.html" class="">Chapter 8
-			<span>An&nbsp;example&nbsp;using&nbsp;MNIST&nbsp;dataset</span> 
+			<span>Example&nbsp;2</span> 
 			</a>
 		</li>
 		<li>
@@ -89,12 +89,13 @@ config=TeX-AMS-MML_HTMLorMML"></script>
 <p>Fisher’s discriminant analysis was first introduced by <a href="references.html/Fisher1936">Fisher, 1936</a>. Fisher’s discriminant analysis is a supervised data analysis technique. This means that it is mandatory that the (training) data samples that are to be classified need to be labelled as belonging to one of the output classes. Fisher’s Discriminant Analysis (hitherto referred to as <em>FDA</em>) is also a  dimensionality reduction method in statistical data analysis. This is helpful when the data resides in higher dimensions and needs to be projected onto a lower dimension for easy analysis. In this article, we aim to discuss FDA in detail, both mathematically and implementation-wise.</p>
 
 <blockquote>
-  <p>Given dataset <em>X</em> in <em>d</em> dimensions where each data sample <script type="math/tex">x_i</script> is assigned to one of <em>K</em> discrete output class labels. <em>FDA</em> aims to find a <em>discriminant</em> in a lower dimension <script type="math/tex">d' \le d</script> onto which <em>X</em> is projected. The projected data points belonging to the <em>K</em> classes are easily seperated on this discriminant.</p>
+  <p>Given dataset <em>X</em> in <em>d</em> dimensions where each data sample <script type="math/tex">x_i</script> is assigned to one of <em>K</em> discrete output class labels. <em>FDA</em> aims to find a <em>discriminant</em> in a lower dimension <script type="math/tex">% <![CDATA[
+d' < d %]]></script> onto which <em>X</em> is projected. The projected data points belonging to the <em>K</em> classes are easily seperated on this discriminant.</p>
 </blockquote>
 
 <h3 id="differences-between-fishers-discriminant-analysis-and-pca">Differences between Fisher’s Discriminant analysis and PCA</h3>
 
-<p><em>PCA</em> is Principal Component Analysis. Like <em>FDA</em>, <em>PCA</em> is also a dimensionality reduction technique. It aims to maximize the variance in the data along each of the principal components found. It does not, however, require that the data be labelled like <em>FDA</em>. Although, this is beyond  the scope of this article, it is important to draw a contrast between <em>FDA</em> and <em>PCA</em> as both these techniques use common techniques from linear algebra. The main difference between <em>PCA</em> and <em>FDA</em> is one of maximum variance and maximum seperability respectively. Let us use a picture aid to understand this briefly.</p>
+<p><em>PCA</em> is Principal Component Analysis. Like <em>FDA</em>, <em>PCA</em> is also a dimensionality reduction technique. It aims to find the directions (or principal components) along which data varies the most. It does not, however, require that the data be labelled like <em>FDA</em>. Although, this is beyond  the scope of this article, it is important to draw a contrast between <em>FDA</em> and <em>PCA</em> as both these techniques use common techniques from linear algebra. The main difference between <em>PCA</em> and <em>FDA</em> is one of maximum variance and maximum seperability respectively. Let us use a picture aid to understand this briefly.</p>
 
 <p>Let’s plot the <em>IRIS</em> data. Although for purposes of illustration, we will consider only 2 features (<em>petal length</em>, <em>sepal width</em>) and 2 categories (output labels) namely, <em>setosa</em> and <em>versicolor</em> from the original data.</p>
 
@@ -125,7 +126,7 @@ config=TeX-AMS-MML_HTMLorMML"></script>
 <footer>
 	<p>	Fisher's Discriminant Analysis <br>
 	<small>
-	&copy; <a href="www.linkedin.com" target="_blank">SuprajaJV</a>. &nbsp;&nbsp;Some rights reserved.
+	&copy; <a href="www.linkedin.com" target="_blank">SVenka</a>. &nbsp;&nbsp;Some rights reserved.
 	</small></p>
 </footer>
 
