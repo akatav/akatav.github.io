@@ -20,6 +20,7 @@ config=TeX-AMS-MML_HTMLorMML"></script>
 
 		
 <header>
+
 	<h1>
 		<a href="/">Fisher's Discriminant Analysis</a>
 	</h1>
@@ -33,51 +34,55 @@ config=TeX-AMS-MML_HTMLorMML"></script>
 		<nav>
 	<ol>
 		<li>
-			<a href="chapter1.html" class="">Chapter 1
+			<a href="/chapter1.html" class="">Chapter 1
 			<span>A&nbsp;simple&nbsp;introduction</span> 
 			</a>
 		</li>
 		<li>
-			<a href="chapter2.html" class="">Chapter 2
+			<a href="/chapter2.html" class="">Chapter 2
 			<span>Intuition</span> 
 			</a>
 		</li>
 		<li>
-			<a href="chapter3.html" class="">Chapter 3
+			<a href="/chapter3.html" class="">Chapter 3
 			<span>Fisher's&nbsp;discriminant</span> 
 			</a>
 		</li>
 		<li>
-			<a href="chapter4.html" class="">Chapter 4
+			<a href="/chapter4.html" class="">Chapter 4
 			<span>Mathematical&nbsp;derivation</span> 
 			</a>
 		</li>
 		<li>
-			<a href="chapter5.html" class="active">Chapter 5
+			<a href="/chapter5.html" class="active">Chapter 5
 			<span>Existing&nbsp;implementations</span> 
 			</a>
 		</li>
 		<li>
-			<a href="chapter6.html" class="">Chapter 6
+			<a href="/chapter6.html" class="">Chapter 6
 			<span>Code&nbsp;review</span> 
 			</a>
 		</li>
 		<li>
-			<a href="chapter7.html" class="">Chapter 7
+			<a href="/chapter7.html" class="">Chapter 7
 			<span>Example&nbsp;1</span> 
 			</a>
 		</li>
 		<li>
-			<a href="chapter8.html" class="">Chapter 8
+			<a href="/chapter8.html" class="">Chapter 8
 			<span>Example&nbsp;2</span> 
 			</a>
 		</li>
 		<li>
-			<a href="chapter9.html" class="">Chapter 9
+			<a href="/chapter9.html" class="">Chapter 9
 			<span>Some&nbsp;concluding&nbsp;remarks</span> 
 			</a>
 		</li>
-		
+		<li>
+			<a href="references.html" class="">References
+			<span>References</span>
+			</a>
+		</li>
 	</ol>
 </nav>
 	
@@ -87,6 +92,10 @@ config=TeX-AMS-MML_HTMLorMML"></script>
 <h1 id="implementations">Implementations</h1>
 
 <p><a href="references.html/DiscriMiner">DiscriMiner</a> is an R package that implements Fisher’s discriminants. We will discuss the code in this package in some detail and use it to classify the IRIS and MNIST datasets.</p>
+
+<p>Below, we use the <a href="references.html/iris">IRIS</a> dataset. The data lies in <script type="math/tex">R^4</script> and K=3. This means that the projected data points will lie in <script type="math/tex">min(K-1,d)=2</script> dimensions. We use the DiscriMiner package to find the covariances.</p>
+
+<p>Once projected, we visualize the projected data points as seen in the plot below. <em>FDA</em> does a great job with the IRIS dataset with a 97% accuracy. The misclassified data points also can be seen clearly in the projected space as shown in the plot below.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">DiscriMiner</span><span class="p">)</span><span class="w">
 </span><span class="n">K</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="c1"># There are 3 ouput classes, setosa, virginica, versicolor</span><span class="w">
@@ -119,7 +128,98 @@ config=TeX-AMS-MML_HTMLorMML"></script>
       </span><span class="n">correct</span><span class="o">=</span><span class="n">correct</span><span class="m">+1</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
-</span><span class="n">accuracy</span><span class="o">=</span><span class="n">correct</span><span class="o">/</span><span class="n">N</span></code></pre></figure>
+</span><span class="n">accuracy</span><span class="o">=</span><span class="n">correct</span><span class="o">/</span><span class="n">N</span><span class="w">
+</span><span class="c1"># Plot the projected data points</span><span class="w">
+</span><span class="n">p</span><span class="o">=</span><span class="n">plot</span><span class="p">(</span><span class="n">projecteddata</span><span class="p">[,</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">projecteddata</span><span class="p">[,</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="n">species</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="o">=</span><span class="s1">'*'</span><span class="p">)</span><span class="w">
+</span><span class="n">points</span><span class="p">(</span><span class="n">projecteddata</span><span class="p">[,</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">projecteddata</span><span class="p">[,</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="n">testlabels</span><span class="p">,</span><span class="w"> </span><span class="n">pch</span><span class="o">=</span><span class="s1">'o'</span><span class="p">)</span></code></pre></figure>
+
+<p><img src="/images/Fishersprojections.png" alt="Fisher's projections" /></p>
+
+<p><em>DiscriMiner</em> uses the <strong>betweenCov</strong> and <strong>withinCov</strong> methods to find the between class and within class covariance, <script type="math/tex">S_b</script> and <script type="math/tex">S_w</script> respectively.</p>
+<h2 id="discriminer-betweencov">DiscriMiner betweenCov</h2>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># DiscriMiner code for finding S_b</span><span class="w">
+</span><span class="c1"># I've added comments for my own understanding</span><span class="w">
+</span><span class="k">function</span><span class="w"> </span><span class="p">(</span><span class="n">variables</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">div_by_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> 
+</span><span class="p">{</span><span class="w">
+  </span><span class="n">verify_Xy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_verify</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">verify_Xy</span><span class="o">$</span><span class="n">X</span><span class="w">
+  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">verify_Xy</span><span class="o">$</span><span class="n">y</span><span class="w">
+  </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w">
+  </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w"> </span><span class="c1"># p - number of dimensions/features</span><span class="w">
+  </span><span class="n">glevs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">levels</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="c1">#Returns setosa,versicolor,virginica namely the output labels</span><span class="w">
+  </span><span class="n">ng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nlevels</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="c1">#Returns 3, the number of distinct output labels</span><span class="w">
+  </span><span class="n">mean_global</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">colMeans</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w"> </span><span class="c1">#mean of original data - a (p,1) vector of means of sepal len,sepal width,</span><span class="w">
+  </span><span class="c1"># petal len and petal width of the entire data</span><span class="w">
+  </span><span class="n">Between</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="c1"># $$S_b$$ is a zero matrix of dimension {p,p}</span><span class="w">
+  </span><span class="c1"># of between-class covariance</span><span class="w">
+  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">ng</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1"># for each output class</span><span class="w">
+    </span><span class="n">tmp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">glevs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="w">
+    </span><span class="n">nk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="w">
+    </span><span class="n">mean_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">colMeans</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">tmp</span><span class="p">,</span><span class="w"> </span><span class="p">])</span><span class="w"> </span><span class="c1"># mean of this output class - a (p,1) vector of means of sepal len,sepal width,</span><span class="w">
+    </span><span class="c1"># petal len and petal width of the data in class k</span><span class="w">
+    </span><span class="n">dif_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean_k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean_global</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">div_by_n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="c1"># euclidean distance between global mean and class mean. R uses the tcrossprod function to these 2 vectors, we can use %*% also instead like</span><span class="w">
+      </span><span class="c1"># dif_k %*% t(dif_k). We can also use crossprod(t(dif_k)).</span><span class="w">
+      </span><span class="c1"># The covariance is weighed against the ratio between number of observations in this class and the total number of observations.</span><span class="w">
+      </span><span class="n">between_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">nk</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tcrossprod</span><span class="p">(</span><span class="n">dif_k</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">between_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">nk</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tcrossprod</span><span class="p">(</span><span class="n">dif_k</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="c1"># S_b is the sum of the S_b of data belonging to each output class</span><span class="w">
+    </span><span class="n">Between</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Between</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">between_k</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">variables</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">var_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="s2">"X"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">)</span><span class="w">
+    </span><span class="nf">dimnames</span><span class="p">(</span><span class="n">Between</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">var_names</span><span class="p">,</span><span class="w"> </span><span class="n">var_names</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nf">dimnames</span><span class="p">(</span><span class="n">Between</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">variables</span><span class="p">),</span><span class="w"> </span><span class="n">colnames</span><span class="p">(</span><span class="n">variables</span><span class="p">))</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="n">Between</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<h2 id="discriminer-withincov">DiscriMiner withinCov</h2>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="k">function</span><span class="w"> </span><span class="p">(</span><span class="n">variables</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">div_by_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> 
+</span><span class="p">{</span><span class="w">
+  </span><span class="n">verify_Xy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_verify</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">verify_Xy</span><span class="o">$</span><span class="n">X</span><span class="w">
+  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">verify_Xy</span><span class="o">$</span><span class="n">y</span><span class="w">
+  </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w">
+  </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w">
+  </span><span class="n">glevs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">levels</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w">
+  </span><span class="n">ng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nlevels</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w">
+  </span><span class="n">Within</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w">
+  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">ng</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">tmp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">glevs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="w">
+    </span><span class="n">nk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="w">
+    </span><span class="c1"># var() returns the covariance of data belonging to class k</span><span class="w">
+    </span><span class="c1"># weighed against the number of observations</span><span class="w">
+    </span><span class="c1"># cov() also returns the same matrix</span><span class="w">
+
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">div_by_n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">Wk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">nk</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">var</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">tmp</span><span class="p">,</span><span class="w"> </span><span class="p">])</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="c1"># The covariance is weighed against the ratio of the number of observations in class k</span><span class="w">
+      </span><span class="c1"># and the total number of observations</span><span class="w">
+      </span><span class="n">Wk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">nk</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">var</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">tmp</span><span class="p">,</span><span class="w"> </span><span class="p">])</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="c1"># $$S_w = S_w1 + S_w2 + ... + S_wk$$</span><span class="w">
+    </span><span class="n">Within</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Within</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Wk</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">variables</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">var_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="s2">"X"</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="p">)</span><span class="w">
+    </span><span class="nf">dimnames</span><span class="p">(</span><span class="n">Within</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">var_names</span><span class="p">,</span><span class="w"> </span><span class="n">var_names</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nf">dimnames</span><span class="p">(</span><span class="n">Within</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">variables</span><span class="p">),</span><span class="w"> </span><span class="n">colnames</span><span class="p">(</span><span class="n">variables</span><span class="p">))</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="n">Within</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
 
 <h2 id="implementations-in-matlab">Implementations in Matlab</h2>
 

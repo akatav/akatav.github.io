@@ -7,7 +7,11 @@ title: "References"
 
 <a name="Fisher1936"></a> R.A. Fisher (1936) _The Use of Multiple Measurements in Taxonomic Problems_. Annals of Eugenics.
 
-<a name="DiscriMiner">https://cran.r-project.org/web/packages/DiscriMiner/index.html</a>
+<a href="https://cran.r-project.org/web/packages/DiscriMiner/index.html" name="DiscriMiner" target="_blank">DiscriMiner package in R</a>
+
+<a href="https://stackoverflow.com/questions/15651562/why-does-var-act-like-cov-in-r" name="covarianceRef" target="_blank">Why does var() act like cov() in R?</a>
+
+<a href="https://archive.ics.uci.edu/ml/datasets/iris" name="iris" target="_blank">IRIS dataset</a>
 
 <a name="Bookstein1980"></a> Bookstein, F. L. (1980) "Data Analysis by Partial Least Squares." In _Evaluation of Econometric Models_. Edited by J. Kmenta and J. B. Ramsey, 75-90. Academic Press.
 

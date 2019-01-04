@@ -38,15 +38,22 @@ projectedgroupmeans=t(groupmeans)%*%w
 
 #Apply nearest neighbors to test data
 correct=0
+testlabels=matrix(0, nrow=150, ncol=1)
  for (i in 1:nrow(projecteddata)) {
     projectedpoint=t(replicate(3,projecteddata[i,]))
     closestclass=which.min(sqrt(rowSums((projectedpoint-projectedgroupmeans)^2)))
     print(closestclass)
+    testlabels[i,1] =closestclass
     if(species[i]==closestclass) {
       correct=correct+1
     }
   }
 accuracy=correct/N
+
+p=plot(projecteddata[,1], projecteddata[,2], col=species, pch='*')
+points(projecteddata[,1], projecteddata[,2], col=testlabels, pch='o')
+```
+```{r}
 
 ```
 
