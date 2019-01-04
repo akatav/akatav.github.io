@@ -3,35 +3,39 @@ layout: page
 title: "kidding"
 ---
 
-# You've got to be kidding me 
+# A Visual intuition for Fisher's discriminant method in $$R^2$$
 
-The first time I heard about PLS was in October 2004 when I first met professor Tomàs Aluja---my former PhD adviser. I had just recently moved to Barcelona to start my graduate studies in statistics, and I had been designated Tomàs's new mentee. At the end of our first meeting when I was about to leave his office, Tomàs asked me a seemingly intrascendental question: "Have you ever heard about PLS?" 
+Let us plot a set of data points in 2 dimensions using the _R_ code below: 
 
-"P. L. S.?"
+{% highlight r %}
+library(ggplot2)
+x <- c(1,-1,0.75,-2,2,2.5,3,0,1,1.5,4,2)
+y <- c(1,0.5,-1,-2,1.5,2.4,1.8,4,4,4.2,4, 4.5)
+df <- data.frame(cbind(x, y))
+colors= c(0,0,0,0,1,1,1,1,2,2,2,2)
+g <- ggplot(data = df, aes(x = df$x, y = df$y, colour=factor(colors))) + geom_point()
+g <- g + geom_point(alpha = 1/3)  # alpha b/c of overplotting
+g <- g + coord_fixed()
 
-I repeated those letters to myself without pronouncing any words. Fearing to give a bad impression to my brand new mentor, I quickly scanned the hard-disk of my brain in search for any hint. Unsuccessfully struggling to find any answer, I ended up with a perfect clueless expression in my face. 
+g1=g+geom_segment(aes(x=-1,y=5,xend=4,yend=5), arrow=arrow(length = unit(0.03, "npc")))
+#Orthogonal projection
+ss2<-perp.segment.coord(df$x, df$y, 5, 0)
+g1 + geom_segment(data=as.data.frame(ss2), aes(x = x0, y = y0, xend = x1, yend = y1), colour = "black")
+{% endhighlight %}
 
-I had no idea what PLS was or what it meant.
+![Fishers discriminant - 1](/images/Fig2.png)
 
-The reason why Tomàs asked me about PLS was because he was in charge of organizing _PLS'05 - The 4th International Symposium on Partial Least Squares and Related Methods_ for the following year (September, 2005). He wanted to know if I would be willing to help him with some of the organizational details for the symposium. Little did I know the tremendous impact those three mysterious letters would have in the coming years of my analytics career.
+Given a dataset in 2D like above, Fisher's discriminant analysis tries to _find_ a line (or discriminant) onto which the data points are projected orthogonally. Once projected, the projected data points should be linearly seperable. When data points are projected orthogonally on the line in the above plot, we see that the projected points are not well-seperated. In contrast, see plot below for the same set of points. The 3 groups of points are well-seperated on the discriminant. 
 
-I became involved with PLS in a very unintended way. One of my first duties as part of the _PLS'05_ staff, was being in charge of receiving the abstracts and paper submissions for the symposium, making sure they complied with the strict guidelines-for-authors. I spent my time sending emails and pestering authors kindly requesting them to fix the page layout, change the font size, reduce the number of pages, and things like that. One of the orders Tomàs gave me was to read all the papers. Grudgingly, I followed his command and sucked it all up. However, _reading_ doesn't necessarily mean _understanding_. From all the submitted papers, I was able to understand three of them... at the most. And even then my understanding was very superficial. The common thing about those papers was their very applied and digestable examples that prevented me from getting lost with all the unintelligible details. By the way, this is NOT how anyone should ever try to learn about PLS methods.
+![Fishers discriminant - 2](/images/Fig3.png)
 
-I had a more formal and intensive introduction to the PLS framework with Tomàs's course "Advanced Methods for Multivariate Data Analysis." The outline of the course was based on the great book _La Régression PLS: Théorie et Pratique_ by Michel ([Tenenhaus, 1998](references.html/#Tenenhaus1998)). The book is a marvelous piece, with Michel's unique eloquent writing style, explaining things in a very detailed way, using a clear notation, and full of examples and graphics. I guess everything would have been fine if it wasn't for the fact that I had a very limited knowledge of French. Which it only makes it harder when you're not only a PLS novice but also a French-language beginner. Luckily, _google translate_ was already available at that time, providing a considerable help in deciphering some of the book's content.
+To summarize, Fisher's discriminant analysis aims to:
 
-Tomàs's class was a very hands-on course. Each student was responsible of studying a chapter from the book, programming the corresponding method in R, and giving a lecture to the rest of the class. I got to present chapter 8---PLS Regression for one response variable. Tomàs kept for himself the presentation of the PLS Path Modeling (PLS-PM) approach for the last lecture. That day he introduced the technique with an example using the famous Russett dataset, and then he proceeded to talk about how the method worked. When he got to the description of the PLS-PM algorithm, however, I was having a hard time understanding all the steps. The worst part was my fruitless attempt trying to connect the PLS regression algorithms with the PLS-PM algorithm. The question that was driving me crazy was: Where on earth were the PLS regressions in the PLS-PM algorithm? I raised my hand and asked Tomàs if he could please show the rest of the class where the PLS regressions were. To my surprise, his answer was even more disconcerting: "Regressions? What regressions? This has nothing to do with PLS Regression. This is PLS Path Modeling." I'm pretty sure Tomàs does not even remember these details. But they definitely had a profound impact on me.
+> 1. Find the Fisher's discriminant(s) _L_ for a given dataset _X_
+> 2. Orthogonally project the original dataset _X_ onto _L_
+> 3. Seperate the data points on _L_ belonging to the _K_ different classes using a threshold. 
 
-All I remember thinking was something like: "You've got to be kidding me, this PLS stuff makes no sense whatsoever!" I was definitely biting off more than I was able to chew.
-
-I won't lie to you. My introduction to the PLS world was not a smooth one. Besides my very limited knowledge of French, another difficulty was my equally limited knowledge of the techniques in Michel's book like Canonical Correlation Analysis, Redundancy Analysis, and Inter-Battery Factor Analysis. One of the morals from this experience was that I needed to learn French; the other moral was that this was also not the best way to start learning about PLS from scratch.
-
-I felt so confused and disoriented, but eventually I managed to my find way out through the PLS labyrinth over the following years. My biggest consolation, to my suprise, was when I heard Michel Tenenhaus story in front of the audience at one of the PLS Research Workshops in Paris, 2009. He told us about his PLS tale: having started studying PLS regression, he was later referred to PLS Path Modeling, only to find out that, initially, nothing made sense to him. I was so relieved in knowing that I was not the only one with the same big confussion. Even a PLS _jedi master_ like Michel had faced the same puzzle I had struggled with.
-
-I became obsessed with the story behind PLS since the very first moment I started to work on my PhD dissertation about PLS Path Modeling. As a grad student in the fall of 2005, I remember googling about "Partial Least Squares" and getting links back that talked about PLS Regression. When I tried to be more specific and searched for "Partial Least Squares Path Modeling," there was nothing but again PLS Regression retrieved results only. Why was there almost nothing about PLS Path Modeling? There were virtually no resources about the original works by Herman Wold, or the so-called Structural Equation Models via PLS approach. Moreover, most of the available resources on the Web were basically chemometrics-related material. It is amazing to see how much things have changed in just a decade. But it hasn't been easy. It has required a titanic effort coordinating the work of a large number of scholars. Gradually, the barriers have been pushed in order to revive a methodological framework that was heading toward the annals of statistical methods that sadly end up in the dead archives of university libraries.
-
-One of the very first things I knew I wanted to do was to find out more about the history of PLS methods. The main resource I had in my hands was a tutorial on PLS Path Modeling, which was basically a draft for the famous article _"PLS Path Modeling"_ by Tenenhaus et al (2005). I started tracking the references listed in the tutorial, and I was happy to find that the Economics and Math libraries of the University of Barcelona had copies of the two volumes _Systems under indirect observation: Causality, structure, prediction_, the intimidating treatise _Latent Variable Path Modeling with Partial Least Squares_ ([Lohmoller, 1989](references.html/#Lohmoller1989)), the _Encyclopedia of Statistical Sciences_ with the entry of PLS ([Wold, 1985a](references.html/#Wold1985a)), and _The Making of Statisticians_ containing the autobiographical essay of Herman ([Wold, 1982a](references.html/#Wold1982a)). Little by little I started to dig out and uncover fragments of a fascinating story. 
-
-All I wanted was to be able to answer the _who_, _when_, _how_, and _why_. Who created PLS? When was it developed? How was the development process? And why? How does something such as PLS is developed? What were the circumstances that gave birth to that framework? In this sense, the quest became a quest not only about PLS itself but also about its creator, about his mind, his ideas, and surrounding context. Among all my inquires, one question has remained for years in the back burner of my head: Why was PLS Path Modeling not that well known? Think about it. By 2005, the first works about PLS had already been present for almost 30 years! Yet, having access to those references was---and still is---ridiculously difficult. I think I have now most of the elements to answer the questions that have been lingering since that fall of 2005. 
+Before going any further, let us also discuss the number of Fisher's discriminants needed as _K_ increases. 
 
 <a class="continue" href="chapter3.html">Next chapter</a>
 

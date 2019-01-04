@@ -3,105 +3,140 @@ layout: page
 title: "timeline"
 ---
 
-# Commented Timeline
+# Mathematical derivation of Fisher's discriminant(s)
 
-Before presenting the historical narrative in the following chapters, I would like to provide a brief timeline featuring events that have guided the path traveled by PLS methods until our current days.
+Let $$\mu_g$$ be the mean of _X_. Let the mean of each of the _K_ groups of data (denoted by $$X_k$$) be $$\mu_k$$, $$1 \le k \le K$$. We aim to find the Fisher's discriminant _w_ such that $$Y=w.X$$. This was explained in the previous chapter. 
 
+Let $$X'$$ be the set of orthogonal projections of $$X$$ on the discriminant _Y_. 
 
-### Mid-1960s: NIPALS Procedures
+$$
+\begin{equation}
+\mu_g' = w.\mu_g\tag{1}\label{eq:one}
+\end{equation}
+$$
 
-The origins of all PLS methods can be traced back to the mid 1960s where the precursors of modern-day PLS tools were developed by Herman Wold and his research group at the Uppsala University, Sweden. From his work on econometric models of simultaneous equations, Herman Wold modified the algorithm of his Fix-Point method in order to solve a series of ad-hoc data analysis problems. Historically, the first type of PLS algorithm is a power method ([Wold, 1966b](references.html/#Wold1966b)) for computing Principal Components. This procedure was almost immediately extended to a series of ad-hoc procedures among which there was a version to calculate Canonical Correlations. Under the name __NILES__, short for "Nonlinear Iterative Least Squares," Herman ([Wold, 1966a](references.html/#Wold1966a)) presented a collage of examples solved by means of iterative procedures based on steps of least squares regressions. 
+be the orthogonal projection of $$\mu_g$$ on _Y_. 
 
-Interestingly, these initial works contained the fundamental mathematical elements of all subsequent PLS methods: computation of _data components_ as weighted sums of variables, operationally obtained through steps of least squares regressions. Not long after their presentation, ([WoldLyttkens, 1969](references.html/#WoldLyttkens1969)) replaced the term "NILES" by "NIPALS" (Nonlinear Itearive PArtial Least Squares), consequently shifting from _NILES procedures_ to _NIPALS procedures_. Because these first publications around NILES, subsequently NIPALS, emphasized the computation of Principal Components Analysis, today most authors refer to NIPALS as the PLS algorithm for PCA. To avoid confusion, I prefer to use the term NIPALS-PCA for this special case.
+Similarly, 
 
-It is worth noting that the first NIPALS procedures __were never a single methodology nor a single approach__. They were rather a collection of more or less disconnected and different algorithms for solving a diversity of methods such as PCA, CCA, regressions, and systems of econometric equations. The emphasis of these procedures was put on the idea of linearizing problems that were inherently non-linear (or bilinear) in their parameters and unknowns. In addition, there was no use of path diagrams.
+$$
+\begin{equation}
+\mu_k'=w.\mu_k\tag{2}\label{eq:two}
+\end{equation}
+$$ 
 
+be the orthogonal projections of each $$\mu_k$$ on _Y_. 
 
-### Early 1970s: NIPALS Modeling
+As described in the previous chapter, _FDA_ tries to find _w_ by maximizing the distance between the group means while minimizing the distance between points within a group _k_ and their respective means in the projected space $$d'$$. 
 
-In the early 1970s, the so-called NIPALS procedures experienced a wave of significant modifications. The most impacting factor was the inclusion of (at the time) recent simple path models with latent variables (i.e. models associating two blocks of variables). Such models were the result of the breakthrough achieved by Karl Jöreskog, one of Wold's former PhD students. One of Jöreskog's major accomplishments was the synthesis from merging econometric simultaneous equations models, psychometric latent variable models, sociology causal analysis, and biometric path analysis, in an estimable way via computer algorithms and Maximum-Likelihood approach. Attracted by the new model-building opportunities offered by the combo of path models and latent variables, Wold realized that some of the NIPALS procedures he had already proposed could be adapted for this new type of models. In 1973 Wold changed again the label of the methods: from _NIPALS procedures_ to _NIPALS modeling_, clearly reflecting a more mature---but still incomplete---modeling framework ([Wold, 1973](references.html/#Wold1973)). In retrospect, this is the period of time where we can truly talk about the origins of the PLS Path Modeling branch. 
+Let $$S_w'$$ be the __within-class covariance__ and $$S_b'$$ be the __between-class covariance__ in the projected space. 
 
-Keep in mind that the term NIPALS, as used by Herman Wold, was a very broad label. It was so broad that renowned American mathematician Joseph Kruskal once asked Herman ([Wold, 1973](references.html/#Wold1973)) "whether an explicit definition can be given for the class of nonlinear models that constitute the scope of NIPALS modeling." Wold answered: 
+$$
+\begin{equation}
+S_w' = \sum_{k=1}^K (\mu_k'-X_k').(\mu_k'-X_k')^T\tag{3}\label{eq:three}
+\end{equation}
+$$
 
-> NIPALS modelling is highly flexible, allowing the combined used of several devices, including parameter grouping and relaxation; auxiliary transformation of the model; and modeling the predictors in terms of indirectly observed manifest variables and other hypothetical constructs. Hence I see NIPALS as an open ended array of models with unlimited complexity in the combined use of several devices. 
+$$
+\begin{equation}
+S_b' = \sum_{k=1}^K (\mu_k'-\mu_g').(\mu_k'-\mu_g')^T\tag{4}\label{eq:four}
+\end{equation}
+$$
 
+Note that, $$S_w'$$ and $$S_b'$$ represent the covariances within and between the various classes/groups of the data.
 
-### Mid 1970s: NIPALS Soft Modeling
+We know that covariance of _X_ is: 
 
-The mid-1970s is a time of extensive work and refinement. Seeing and seizing the opportunity to develop his own modeling approach, Wold's team, this time at the University of Gothenburg, refined and polished different versions of a general methodology for estimating path models with observed and unobserved variables. Throughout the 1970s, Herman Wold led the development of an alternative methodology to estimate path models by applying iterative algorithms of least squares regressions. In first place there is the extension of the algorithms from handling two blocks (2 latent variables) to handling three blocks (3 latent variables); secondly there is the extension of handling one between-block relation to more than one between-block relation (Wold1974, Wold1975a, Wold1975b).
+$$
+E[X] = E[(X-E(X))(X-E(X))^T]\tag{5}\label{eq:five}
+$$
 
-It is also during this second half of the 1970s when Herman Wold introduces the fanciful notion of "Soft Modeling," which he will adopt later as the insignia to wrap his model-building framework via the PLS approach. To the best of my knowledge, the first time that Wold publishes a paper mentioning the term "soft modeling" is in _"Soft Modelling by Latent Variables: The Non-Linear Iterative Partial Least Squares (NIPALS) Approach"_ ([Wold, 1975a](references.html/#Wold1975a)).  
+Covariance of $$Y$$ is:
 
-> The NIPALS approach is applied to the 'soft' type of model that has come to the fore in sociology and other social sciences in the last five or ten years, namely path models that involve latent variables which serve as proxies for blocks of indirectly observed variables.
+$$E[w.X] = E[(wX-E(wX))(wX-E(wX))^T]\tag{6}\label{eq:six}$$
 
-The "soft modeling" notion is more of ideological nature and will also evolve in the following years. Its underlying meaning implies the idea of modeling in "complex situations where data and prior information are relatively scarce and without requiring assumptions about the stochastic-distributional properties of variables and residuals" ([Wold, 1975a](references.html/#Wold1975a)).
+$$E[wX] = E[w(X-E(X))(X-E(X))^Tw^T]$$
 
-In _"Path Models with Latent Variables: The NIPALS Approach"_ ([Wold, 1975b](references.html/#Wold1975b)), Herman writes on page 352:
+$$E[wX] = w.E[(X-E(X))(X-E(X))^T].w^T$$
 
-> It sometimes happens that the model builder has little or no more prior information at disposal for the model construction than its intended operative use. The NIPALS models are designed with particular view to applications in such low-information situations.
+Substituting equation (5), 
 
+$$E[wX] = w.E[X].w^T\tag{7}\label{eq:seven}$$
 
-### Late 1970s: PLS Soft Modeling
+From equation (7), we can rewrite $$S_w'$$ and $$S_b'$$ in terms of $$S_w$$ and $$S_b$$ as follows:
 
-Toward the ending of the 1970s, after a long simmering and cooking, Wold and his team arrive to a more defined framework. Finally, the acronym "NIPALS" is shortened to "PLS", and the more or less uncoordinated types of models are reduced and emphasized to handle path models with latent variables indirectly observed. In other words, the other types of models, of a more econometric flavor (GEID, REID, etc) that previously overlapped NIPALS modeling become secondary topics within the PLS framework.
+$$S_w'=w.S_w.w^T\tag{8}\label{eq:eight}$$
 
-1977-78 see the appearance of a number of articles:
+$$S_b'=w.S_b.w^T\tag{9}\label{eq:nine}$$
 
-- _"On the Transition from Pattern Cognition to Model Building"_ ([Wold, 1977a](references.html/#Wold1977a)) 
-- _"Open Path Models with Latent Variables"_ ([Wold, 1977b](references.html/#Wold1977b)) 
-- _"Ways and Means of Multidisciplinary Studies"_ ([Wold, 1978](references.html/#Wold1978)) 
+As mentioned, we try to maximize $$S_b'$$, which is the distances between all the $$\mu_k'$$ of each of the _K_ classes. It turns out that this is the same as maximizing the distance from each $$\mu_k'$$ and the global mean $$\mu_g'$$. 
 
+The optimization problem is as follows: 
 
-### Early 1980s: The Basic Design and Extensions
+$$J(w) = \frac{S_b'}{S_w'} $$
 
-The end of the 1970s decade sees the official presentation of the so-called __Basic Design__ for PLS path modeling. This is the what can be considered to be the _stable_ version, or paraphrasing in marketing terms, Wold's _minimal viable product_. The first publication with all the elements of the basic design is _"Causal-Predictive Analysis of Problems with High Complexity and Low Information: Recent Developments of Soft Modeling"_ ([Wold, 1979](references.html/#Wold1979)). This is the first time where Wold uses the definitive terminology that will prevail in his subsequent manuscripts. More specifically, it is the first time that the terms "Mode A" and "Mode B"---for the two main types to estimate the so-called weight relations---appear on print. The so-called Basic Design, is the basic method for PLS Path Analysis with Latent Variables, and it is the one on top of which all extensions and modifications are based on. Further discussions are provided in ([Wold, 1980a](references.html/#Wold1980a)), ([Wold, 1982a](references.html/#Wold1982a)), and ([Wold, 1985a](references.html/#Wold1985a)).
+$$J(w) = \frac{wS_bw^T}{wS_ww^T} $$
 
-Also in 1979 the LISREL-PLS meeting jointly organized by Karl Jöreskog and Herman Wold takes place in Cartigny, Switzerland. The proceedings of this meeting will be published in 1982 in the form of the classic two-volume book: _Systems under indirect observation: Causality, structure, prediction_.
+Rewriting the above equation as a Lagrangian, we get: 
 
+$$J(w) = wS_bw^T + \lambda (wS_ww^T-1)$$
 
-Under the term _PLS Soft Modeling_, Herman Wold proposed a generic modeling framework, wrapped around his unique philosophical perspective, with the goal of solving path models with latent variables. Among the vast array of references, the classic works are those of Wold ([Wold, 1980a](references.html/#Wold1980a)), ([Wold, 1980b](references.html/#Wold1980b)), ([Wold, 1982b](references.html/#Wold1982b)), ([Wold, 1985a](references.html/#Wold1985a)).
+Differentiating w.r.t _w_ and setting to 0, 
 
-From ([Wold, 1985a](references.html/#Wold1985a)):
+$$\frac{\partial J}{\partial w} = 2wS_b +2 \lambda wS_w $$
 
-> Soft Modeling is the name for the methodology for PLS estimation of path models with latent variables indirectly observed by multiple indicators.
+$$wS_b + \lambda wS_w = 0$$
 
-The methodology involving the basic design is fully described in ([Wold, 1982a](references.html/#Wold1982a)). Geometric interpretations are provided by Fred Bookstein ([Bookstein, 1980](references.html/#Bookstein1980)), (Bookstein1982a, Bookstein1982b). What is perhaps the first pseudo-code description of the basic algorithm is provided by Jan-Bernd Lohmöller (1989, p. 29).
+$$wS_b = -\lambda wS_w\tag{10}\label{eq:ten}$$
 
+_w_ is a $$[d,1]$$ vector, $$S_b$$ and $$S_w$$ are $$[d,d]$$ matrices. $$\lambda$$ is a scalar. The above can be rewritten as follows in the form of the __Generalized Eigenvalue problem__
 
-### Late 1980s
+Multiply both sides by $$S_w^{-1}$$, 
 
-In 1989, the book _Latent Variable Path Modeling with Partial Least Squares_ by Jan-Bernd Lohmöller is published. From the list of researchers and contributors of PLS Path Modeling, Lohmöller is the figure that compiles various extensions of the basic design. Although his writing style is not friendly at all, his contributions touch several directions: multiblock data, multiway data. More importantly, he also develops the software program LVPLS with its first versions dating from 1982 till the well-recognized LVPLS ver-1.6 from 1987. 
+$$wS_w^{-1}S_b = -\lambda w\tag{11}\label{eq:eleven}$$
 
-In the last of his works, the book _Theoretical Empiricism: A Rationale for Scientific Model-Building_, edited by Herman ([Wold, 1989b](references.html/#Wold1989b)), perfeclty reflects and summarizes his standpoint about model-building and Soft Modeling via PLS approaches. The introductory chapter "Introduction to the Second Generation of Multivariate Analysis," ([Wold, 1989a](references.html/#Wold1989a)) is a compendium that shows both sides of Wold's interests: path models with manifest and/or latent variables; an also theoretical empiricism---his ideological posture about phylosophy of science.
+$$w=eigen(S_w^{-1}S_b)\tag{12}\label{eq:twleve}$$ gives value of the Fisher's discriminant _w_.  We are interested in the first $$min(K-1, d)$$ eigen vectors in descending magnitude (of eigen values). 
 
-### 1990s
+Multiplying the original data _X_ by _w_ as obtained above gives the orthogonal projection of _X_. 
 
-In the 1990s, there's basically no theoretical progress. The most interesting work is on the computational side with the development of PLS-Graph by Wynne Chin.
+### Differences between PCA and Fishers
 
+We see that Fishers discriminants are found by eigen decomposition of $$S_w^{-1}S_b$$. In contrast, PCA find its components by the eigen decomposition of the covariance matrix of _X_, $$eigen(S_t)$$ where $$S_t$$ is the covariance of the entire data, _X_. 
 
-### 2000s
+We note here that $$S_t=S_w+S_b$$. We will derive this also for the sake of thoroughness. 
 
-The beginning of the XXI century saw a renaissance of interest in PLS-PM. Major contributions were made by French researchers. Among the primary landmarks we have the paper _PLS Path Modeling_ by Tenenhaus et al (2005), in the journal _Computational Statistics & Data Analysis_ (CSDA). At the time of this writing, this paper accumulates 1921---the most cited paper of CSDA!.
+Thus, we see that PCA and _FDA_ are different in the covariance matrices they decompose. Also, from this, we understand that _PCA_ decomposes the covariance matrix devoid of any class labels unlike _FDA_. 
 
-On the software side, 2005 saw the launching and presentation of the software "SmartPLS 2" by Ringle, Wende, and Will (2005). Their work has been an on-going process with a series of versions (the current one being SmartPLS 3). Currently, SmartPLS has a bit more than 2000 citations, and growing.
+### Total covariance is the sum of within-class and between-class covariance
 
-On the theoretical side, the works of Hanafi (2007) and Tenenhaus (2010), are fundamental. Their work has brought a better understanding of the algorithm. They've continued the multiblock extensions initiated by Lohmöller, and Hanafi has even resolved some of the issues around the convergence of the PLS-PM algorithm. 
+$$S_t = S_w + S_b$$
 
-More recently, Tenenhaus has proposed new modifications that allows us to tweak the PLS-PM algorithm in such a way that we guarantee its convergence, be sure of how the algorithm works, and includes PLS-Regression as one of its special cases. Extended on the same direction, Arthur and Michel Tenenhaus (2011) have proposed their *Regularized Generalized Canonical Correlation Analysis* (RGCCA).
+$$S_w = \sum_{k=1}^{K} \sum_{i=1}^{n} (x_i^k-\mu_k)(x_i^k-\mu_k)^T\tag{13}\label{eq:twelve}$$
 
+$$S_b = \sum_{k=1}^{K} (\mu_k-\mu_g)(\mu_k-\mu_g)^T\tag{14}\label{eq:thirteen}$$
 
-### In summary
+$$S_t = \sum_{k=1}^K \sum_{i=1}^{n} (x_i^k - \mu_g)(x_i^k - \mu_g)^T\tag{15}\label{eq:fourteen}$$
 
-Herman Wold led his team, constantly carving and painstakingly polishing his procedures over a long period of time; taking shape and maturing, until he got a ripe version dubbed "basic design", wrapped around the notion of "soft modeling." Wold envisioned a modeling approach for analyzing systems of linear relations with observed and unobserved variables. Given the fact that PLS Path Modeling was inspired by Karl Jöreskog's approach, it is undeniable that both methodologies shared many things in common. Notably, the concept of latent variables, the systems of linear relations, and the graphical representation of the models. However, Wold conceived PLS with significant and unique differences to LISREL. There is not only a difference in estimation procedures, but there is also a major ideological difference, heavily influenced by Wold's posture regarding econometric simultaneous equation models. The overall "PLS Soft Modeling" idea represents Herman's culminating work in all of its conceptual, intellectual, philosophical, scandinavian glory. 
+$$S_t$$ can be rewritten as below:
 
+$$S_t = \sum_{k=1}^K \sum_{i=1}^{n} (x_i^k-\mu_k+\mu_k-\mu_g)(x_i^k-\mu_k+\mu_k-\mu_g)^T$$
 
-## PLS Regression Origins
+$$S_t = \sum_{k=1}^K \sum_{i=1}^{n} (x_i^k - \mu_k)(x_i^k-\mu_k)^T + (\mu_k-\mu_g)(\mu_k-\mu_g)^T
+\\ + (x_i^k - \mu_k)(\mu_k-\mu_g)^T + (\mu_k-\mu_g)(x_i^k - \mu_k)^T$$
 
-The beginnings of the PLS Regression branch date back to the early 1980s when some of the PLS principles were modified and applied to tackle regression problems of chemical data. 
+Substitute (14) and (15), we get: 
 
-Under his father's suggestions, Svante Wold attempted to apply the PLS Path Modeling methodology for regression analysis with chemical data. After some modifications by Svante Wold and Harald Martens, a new algorithm is born. This is the beginning of the PLS Regression framework. The seminal work _"The multivariate calibration method in chemistry by the PLS method",_ corresponds to Svante Wold, Harald Martens, and Herman Wold ([WoldMartensWold, 1983](references.html/#WoldMartensWold1983)). 
+$$S_t = S_w + S_b + \sum_{k=1}^K \sum_{i=1}^{n} (x_i^k - \mu_k)(\mu_k-\mu_g)^T 
+\\	+ (\mu_k-\mu_g)(x_i^k - \mu_k)^T\tag{15}$$
 
-Like PLS Path Modeling, the roots of PLS Regression have the signature of Herman Wold with the use of iterative least squares algorithms. Unlike PLS-PM, it was not Herman who took charge of the bifurcated ideas but his son, Svante Wold, who almost immediately became the flag bearer behind the PLS Regression sprout. Taking advantage of the core computational ideas of his father's methodology, and stripping them away from the more philosophical-epistemological elements, Svante and his colleagues subsequently launched a series of algorithms with an emphasis in multivariate regression problems, decisively more pragmatic, and without the econometric-psychometric speech of Herman's original methods.
+If we consider that, 
+$$\frac{1}{n} \sum_{i=1}^n x_i^k = \mu_k $$
+
+$$ (\frac{1}{n} \sum_{i=1}^n x_i^k) - \mu_k = 0$$
+
+Substituting in (15), the third becomes 0 and we get:
+
+$$S_t = S_w + S_b$$
 
 <a class="continue" href="chapter5.html">Next chapter</a>
 
