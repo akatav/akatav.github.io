@@ -7,7 +7,7 @@ title: "References"
 
 <a name="Fisher1936"></a> R.A. Fisher (1936) _The Use of Multiple Measurements in Taxonomic Problems_. Annals of Eugenics.
 
-<a name="Bayne1992"></a> Bayne, C. K. (1992) "Latent Variable Path Modeling with Partial Least Squares by Jan-Bernd Lohmöller - Review." _Technometrics_. Vol. 34, No. 1, 110-111..
+<a name="DiscriMiner">https://cran.r-project.org/web/packages/DiscriMiner/index.html</a>
 
 <a name="Bookstein1980"></a> Bookstein, F. L. (1980) "Data Analysis by Partial Least Squares." In _Evaluation of Econometric Models_. Edited by J. Kmenta and J. B. Ramsey, 75-90. Academic Press.
 

@@ -5,7 +5,43 @@ title: "Existing implementations of FDA"
 
 # Implementations
 
-_DiscriMiner_ is an R package that implements Fisher's discriminants. We will discuss the code in this package in some detail and use it to classify the IRIS and MNIST datasets. 
+[DiscriMiner](references.html/DiscriMiner) is an R package that implements Fisher's discriminants. We will discuss the code in this package in some detail and use it to classify the IRIS and MNIST datasets. 
+
+
+{% highlight r %}
+library(DiscriMiner)
+K=3 # There are 3 ouput classes, setosa, virginica, versicolor
+d=4 # There are 4 features, petal length&width, sepal length&width
+N=150 #Number of samples
+d1=min(K-1,d)
+# Scatter matrices
+Sb <- betweenCov(variables = iris[,1:4], group = iris$Species)
+Sw <- withinCov(variables = iris[,1:4], group = iris$Species)
+# Eigen decomposition
+ev=eigen(solve(Sw)%*%Sb)$vectors
+# Get the first d1 eigen vectors
+w=ev[,1:d1]
+data=matrix(unlist(iris[,1:4]), nrow=150, ncol=4)
+w=matrix(as.numeric(w), nrow=4, ncol=2)
+species=as.numeric((iris$Species))
+# Get an orthogonal projection of original data
+projecteddata=data%*%w
+globalmean=colMeans(iris[,1:4])
+groupmeans=groupMeans(iris[,1:4], iris$Species)
+projectedgroupmeans=t(groupmeans)%*%w
+
+#Apply nearest neighbors to test data
+correct=0
+ for (i in 1:nrow(projecteddata)) {
+    projectedpoint=t(replicate(3,projecteddata[i,]))
+    closestclass=which.min(sqrt(rowSums((projectedpoint-projectedgroupmeans)^2)))
+    print(closestclass)
+    if(species[i]==closestclass) {
+      correct=correct+1
+    }
+  }
+accuracy=correct/N
+{% endhighlight %}
 
 
 

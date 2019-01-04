@@ -1,0 +1,53 @@
+---
+title: "DiscriminerEx"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+library(DiscriMiner)
+
+d=4
+K=3
+N=150
+d1=min(K-1,d)
+# Scatter matrices
+Sb <- betweenCov(variables = iris[,1:4], group = iris$Species)
+Sw <- withinCov(variables = iris[,1:4], group = iris$Species)
+ev=eigen(solve(Sw)%*%Sb)$vectors
+# Get the first d1 eigen vectors
+w=ev[,1:d1]
+
+data=matrix(unlist(iris[,1:4]), nrow=150, ncol=4)
+w=matrix(as.numeric(w), nrow=4, ncol=2)
+species=as.numeric((iris$Species))
+
+projecteddata=data%*%w
+globalmean=colMeans(iris[,1:4])
+groupmeans=groupMeans(iris[,1:4], iris$Species)
+projectedgroupmeans=t(groupmeans)%*%w
+
+#Apply nearest neighbors to test data
+correct=0
+ for (i in 1:nrow(projecteddata)) {
+    projectedpoint=t(replicate(3,projecteddata[i,]))
+    closestclass=which.min(sqrt(rowSums((projectedpoint-projectedgroupmeans)^2)))
+    print(closestclass)
+    if(species[i]==closestclass) {
+      correct=correct+1
+    }
+  }
+accuracy=correct/N
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
