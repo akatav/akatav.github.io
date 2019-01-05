@@ -29,7 +29,7 @@ article a {
 
 h1 {
 	font-family: Helvetica, Arial, sans-serif;
-	font-size: 1.5em;
+	font-size: 1em;
 	letter-spacing: 1px;
 	font-weight: normal;
 	/*text-transform: uppercase;*/
@@ -62,7 +62,7 @@ h3 {
 
 h3, h4 {
 	font-family: Helvetica, Arial, sans-serif;
-	font-size: 1em;
+	font-size: 0.75em;
 	margin-top: 2em;
 	margin-bottom: -0.5em;
 	color: rgba(0,0,0,0.8);	

@@ -9,7 +9,7 @@ Consider that, in $$d=2$$, there are _K=3_ classes of data samples. Will 1 Fishe
 
 ![Number of Fisher's discriminants](images/Fig4.png)
 
-With 1 discriminant like below, 2 groups of blue and green wpoints are well seperated. But the red points are not seperated. We must add one more discriminant to the above plot in order to seperate the red points also as below. 
+With 1 discriminant like below, 2 groups of blue and green points are well seperated. But the red points are not seperated. We must add one more discriminant to the above plot in order to seperate the red points also as below. 
 
 ![Number of Fisher's discriminants](images/Fig5.png)
 
@@ -19,7 +19,7 @@ To summarize, Fisher's discriminant analysis aims to find a suitable _w_ such th
 
 > $$Y=X.w$$
 
-_X_ is a $$[n,d]$$ dimension matrix. _w_is a $$[d, min(K-1,d)]$$ dimensional matrix. So, Y is a $$[n, min(K-1,d)]$$ matrix of orthogonal projections of the original dataset $$X$$ onto the Fisher's discriminant $$w$$. 
+_X_ is a $$[n,d]$$ dimension matrix. $$w$$ is a $$[d, min(K-1,d)]$$ dimensional matrix. So, Y is a $$[n, min(K-1,d)]$$ matrix of orthogonal projections of the original dataset $$X$$ onto the Fisher's discriminant $$w$$. 
 
 <a class="continue" href="chapter4.html">Next chapter</a>
 
