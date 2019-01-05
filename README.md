@@ -1,6 +1,6 @@
 # Fisher's Discriminant Analysis
 
-Main repository behind the book [Fisher's Discriminant Analysis](http://akatav.github.io)
+Repo behind the article [Fisher's Discriminant Analysis](http://akatav.github.io)
 
 
-Author: [Supraja J V]
+Author: [SVenka]
