@@ -21,19 +21,30 @@ d1=min(K-1,d)
 # Scatter matrices
 Sb <- betweenCov(variables = iris[,1:4], group = iris$Species)
 Sw <- withinCov(variables = iris[,1:4], group = iris$Species)
+{% endhighlight %}
+
+{% highlight r %}
 # Eigen decomposition
 ev=eigen(solve(Sw)%*%Sb)$vectors
 # Get the first d1 eigen vectors
 w=ev[,1:d1]
+{% endhighlight %}
+
+{% highlight r %}
 data=matrix(unlist(iris[,1:4]), nrow=150, ncol=4)
 w=matrix(as.numeric(w), nrow=4, ncol=2)
 species=as.numeric((iris$Species))
+{% endhighlight %}
+
+{% highlight r %}
 # Get an orthogonal projection of original data
 projecteddata=data%*%w
 globalmean=colMeans(iris[,1:4])
 groupmeans=groupMeans(iris[,1:4], iris$Species)
 projectedgroupmeans=t(groupmeans)%*%w
+{% endhighlight %}
 
+{% highlight r %}
 #Apply nearest neighbors to test data
 correct=0
  for (i in 1:nrow(projecteddata)) {
@@ -45,6 +56,9 @@ correct=0
     }
   }
 accuracy=correct/N
+{% endhighlight %}
+
+{% highlight r %}
 # Plot the projected data points
 p=plot(projecteddata[,1], projecteddata[,2], col=species, pch='*')
 points(projecteddata[,1], projecteddata[,2], col=testlabels, pch='o')
