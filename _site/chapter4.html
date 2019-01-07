@@ -204,12 +204,13 @@ S_b' = \sum_{k=1}^K (\mu_k'-\mu_g').(\mu_k'-\mu_g')^T\tag{4}\label{eq:four}
 <script type="math/tex; mode=display">S_t = S_w + S_b + \sum_{k=1}^K \sum_{i=1}^{n} (x_i^k - \mu_k)(\mu_k-\mu_g)^T 
 \\	+ (\mu_k-\mu_g)(x_i^k - \mu_k)^T\tag{15}</script>
 
-<p>If we consider that, 
-<script type="math/tex">\frac{1}{n} \sum_{i=1}^n x_i^k = \mu_k</script></p>
+<p>Note that,</p>
 
-<script type="math/tex; mode=display">(\frac{1}{n} \sum_{i=1}^n x_i^k) - \mu_k = 0</script>
+<p><script type="math/tex">\sum_{k=1}^K \sum_{i=1}^{n} (x_i^k - \mu_k) = 0</script>.</p>
 
-<p>Substituting in (15), the third becomes 0 and we get:</p>
+<p>This is because, sum of the differences of the samples around respective mean is always 0.</p>
+
+<p>Substituting in (15), we get:</p>
 
 <script type="math/tex; mode=display">S_t = S_w + S_b</script>
 

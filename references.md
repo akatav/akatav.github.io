@@ -31,3 +31,14 @@ title: "References"
 
 <a href="https://en.wikibooks.org/wiki/Linear_Algebra/Orthogonal_Projection_Onto_a_Line" name="orthogonal-projection" target="_blank">Orthogonal projection onto a line</a>
 
+<a href="http://matlabdatamining.blogspot.com/2010/12/linear-discriminant-analysis-lda.html" name="matlab-lda-code" target="_blank">LDA Matlab implementation</a>
+
+<a href="https://stats.stackexchange.com/questions/71489/three-versions-of-discriminant-analysis-differences-and-how-to-use-them" name="lda-fishers" target="_blank">Three versions of discriminant analysis</a>
+
+<a href="https://stats.stackexchange.com/questions/109071/standardizing-features-when-using-lda-as-a-pre-processing-step" name="intuitive-lda" target="_blank">Standardizing features when using LDA as a pre-processing step</a>
+
+<a href="https://stats.stackexchange.com/questions/22884/how-does-linear-discriminant-analysis-reduce-the-dimensions" name="dimension-reduction" target="_blank">How does linear discriminant analysis reduce the dimensions?</a>
+
+<a href="https://stats.stackexchange.com/questions/87975/bayesian-and-fishers-approaches-to-linear-discriminant-analysis" name="bayesian-vs-fishers" target="_blank">Bayesian and Fisher's approaches to linear discriminant analysis</a>
+
+<a href="https://en.wikipedia.org/wiki/Linear_discriminant_analysis#Multiclass_LDA" name="multiclass-lda" target="_blank">Muticlass LDA</a>

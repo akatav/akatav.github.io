@@ -129,12 +129,13 @@ Substitute (14) and (15), we get:
 $$S_t = S_w + S_b + \sum_{k=1}^K \sum_{i=1}^{n} (x_i^k - \mu_k)(\mu_k-\mu_g)^T 
 \\	+ (\mu_k-\mu_g)(x_i^k - \mu_k)^T\tag{15}$$
 
-If we consider that, 
-$$\frac{1}{n} \sum_{i=1}^n x_i^k = \mu_k $$
+Note that, 
 
-$$ (\frac{1}{n} \sum_{i=1}^n x_i^k) - \mu_k = 0$$
+$$\sum_{k=1}^K \sum_{i=1}^{n} (x_i^k - \mu_k) = 0$$. 
 
-Substituting in (15), the third becomes 0 and we get:
+This is because, sum of the differences of the samples around respective mean is always 0. 
+
+Substituting in (15), we get:
 
 $$S_t = S_w + S_b$$
 

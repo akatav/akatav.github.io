@@ -10,6 +10,6 @@ layout: home
 - Chapter 4: [Mathematical derivation of Fisher's discriminant](chapter4.html)
 - Chapter 5: [Existing implementations in R, Octave and Python](chapter5.html)
 - Chapter 6: [Implementations in more detail](chapter6.html)
-- Chapter 7: [An example using IRIS dataset](chapter7.html)
-- Chapter 8: [An example using MNIST dataset](chapter8.html)
+- Chapter 7: [An example using IRIS dataset in R](chapter7.html)
+- Chapter 8: [An example using MNIST dataset in Octave](chapter8.html)
 - Chapter 9: [Some concluding remarks](chapter9.html)
