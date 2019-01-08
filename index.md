@@ -12,4 +12,4 @@ layout: home
 - Chapter 6: [Implementations in more detail](chapter6.html)
 - Chapter 7: [An example using IRIS dataset in R](chapter7.html)
 - Chapter 8: [An example using MNIST dataset in Octave](chapter8.html)
-- Chapter 9: [Some concluding remarks](chapter9.html)
+- Chapter 9: [Further questions and concluding remarks](chapter9.html)
