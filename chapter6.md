@@ -93,5 +93,5 @@ function (variables, group, div_by_n = FALSE)
   Within
 }
 {% endhighlight %}
-<a class="continue" href="chapter7.html">Next chapter</a>
+<a class="continue" href="chapter9.html">Next chapter</a>
 
