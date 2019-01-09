@@ -9,6 +9,8 @@ title: "References"
 
 <a href="https://cran.r-project.org/web/packages/DiscriMiner/index.html" name="DiscriMiner" target="_blank">DiscriMiner package in R</a>
 
+<a href="https://stats.stackexchange.com/questions/190806/sources-seeming-disagreement-on-linear-quadratic-and-fishers-discriminant-ana/190821#190821" target="_blank">Are the linear discriminant axes orthogonal to each other?</a>
+
 <a href="https://stackoverflow.com/questions/15651562/why-does-var-act-like-cov-in-r" name="covarianceRef" target="_blank">Why does var() act like cov() in R?</a>
 
 <a href="https://archive.ics.uci.edu/ml/datasets/iris" name="iris" target="_blank">IRIS dataset</a>

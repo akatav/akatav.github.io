@@ -25,3 +25,5 @@ title: "Conclusion"
 
 > How is SVD better than eigen decomposition ?
 
+> What to do when $$p>>>n$$ ?
+
