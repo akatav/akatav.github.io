@@ -20,3 +20,5 @@ keep_files: ["_img"]
 #   - node_modules
 #   - vendor/bundle/
 #   - vendor/cache/
+
+theme: jekyll-theme-cayman
