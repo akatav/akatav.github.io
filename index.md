@@ -4,10 +4,53 @@ layout: home
 
 # Contents
 
-- Chapter 1: [A simple introduction](chapter1.html)
-- Chapter 2: [Intuition for FDA](chapter2.html)
-- Chapter 3: [How many Fisher's discriminants are needed?](chapter3.html)
-- Chapter 4: [Mathematical derivation of Fisher's discriminant](chapter4.html)
-- Chapter 5: [Existing implementations in R, Octave and Python](chapter5.html)
-- Chapter 6: [Implementations in more detail](chapter6.html)
-- Chapter 7: [Further questions and concluding remarks](chapter9.html)
+<html>
+
+  <body>
+
+
+  <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
+
+
+    <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
+      <tr>
+      </tr>
+    </table>
+    <table width="100%" align="center" border="0" cellpadding="20">
+      <tr>
+
+        <td width="55%" valign="middle">
+        <p>
+          <a href="fishers.html" style="font-size:15pt">
+          Fisher's Discriminant Analysis
+          </a>
+        </p>
+        </td>
+      </tr>
+    </table>
+    <table width="100%" align="center" border="0" cellpadding="20">
+      <tr>
+
+        <td width="51%" valign="middle">
+        <p>
+          <a href="geneselection.html" style="font-size:15pt">
+          Gene subset selection for Autism
+          </a>
+        </p>
+        </td>
+      </tr>
+    </table>
+
+      <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+          document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
+      </script> <script type="text/javascript">
+      try {
+          var pageTracker = _gat._getTracker("UA-7580334-1");
+          pageTracker._trackPageview();
+          } catch(err) {}
+      </script>
+  </table>
+  </body>
+</html>

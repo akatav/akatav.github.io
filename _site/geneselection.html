@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <title>Fisher's Discriminant Analysis | subsetselection</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="keywords" content="fishers discriminant analysis,dimensionality reduction,classification,pca,R" />
+        <meta name="author" content="SVenka" />
+        <meta name="description" content="Fishers discriminant analysis" />
+        <meta name="viewport" content="width=640px, initial-scale=1.0, maximum-scale=1.0">	
+        <!-- favicon -->
+        <link rel="shortcut icon" href="/images/favicon.ico">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen, projection" />
+        <script type="text/javascript" async 
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?
+config=TeX-AMS-MML_HTMLorMML"></script>
+	</head>
+	<body>
+
+		
+<header>
+	<h1>
+		<a href="/">Notes on machine learning and data analysis</a>
+	</h1>
+	<br>
+	<small>
+		by <a href="http://linkedin.com" target="_blank">S.Venkat</a>
+	</small>
+</header>
+
+
+		<article class="toc">
+
+<h1 id="introduction">Introduction</h1>
+
+<p>We use a gene expression <a href="references.html/autismdataset">dataset</a> which contains expression levels for more than 50,000 genes collected from autistic and typical subjects. Obviously, this calls for dimensionality reduction techniques. We implement one such technique below.</p>
+
+<h3 id="gene-subset-selection">Gene subset selection</h3>
+
+<p>We implement the “Nearest Shrunken Centroid Classifier” using the <a href="references.html/pamr">PAMR</a> package.</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Nearest shrunken centroid classifier</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">pamr</span><span class="p">)</span><span class="w">
+</span><span class="c1"># Output labels - 0 represents typical subject, 1 represents autistic subject</span><span class="w">
+</span><span class="n">output</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="n">output</span><span class="o">=</span><span class="n">data.frame</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span><span class="w">
+</span><span class="c1"># csv file containing gene expression values of all subjects/samples</span><span class="w">
+</span><span class="n">data</span><span class="o">=</span><span class="n">fread</span><span class="p">(</span><span class="s2">"GeneExpressionInAustisticVsControlSubjects.csv"</span><span class="p">)</span><span class="w">
+</span><span class="n">genes</span><span class="o">=</span><span class="n">data</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span><span class="w">
+</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[,</span><span class="m">-1</span><span class="p">]</span><span class="w">
+</span><span class="n">unlistdat</span><span class="o">=</span><span class="n">unlist</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w">
+</span><span class="c1"># gene expression values in rows and samples in columns</span><span class="w">
+</span><span class="n">datmat</span><span class="o">=</span><span class="n">matrix</span><span class="p">(</span><span class="n">unlistdat</span><span class="p">,</span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">54613</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">146</span><span class="p">)</span><span class="w">
+</span><span class="n">y</span><span class="o">=</span><span class="n">unlist</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="w">
+</span><span class="n">fulldata</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">datmat</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">factor</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="w">
+</span><span class="n">results</span><span class="o">=</span><span class="n">pamr.train</span><span class="p">(</span><span class="n">fulldata</span><span class="p">)</span><span class="w">
+</span><span class="n">genes</span><span class="p">[</span><span class="n">results</span><span class="o">$</span><span class="n">nonzero</span><span class="p">]</span></code></pre></figure>
+
+<p>Running the above code returns the following genes(under the column nonzero)</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>threshold</th>
+      <th>nonzero</th>
+      <th>errors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0.000</td>
+      <td>54613</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <td>0.152</td>
+      <td>39994</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <td>0.303</td>
+      <td>30588</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td>0.455</td>
+      <td>24247</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <td>0.606</td>
+      <td>19380</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <td>0.758</td>
+      <td>15496</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <td>0.909</td>
+      <td>12325</td>
+      <td>44</td>
+    </tr>
+    <tr>
+      <td>1.061</td>
+      <td>9773</td>
+      <td>44</td>
+    </tr>
+    <tr>
+      <td>1.212</td>
+      <td>7600</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <td>1.364</td>
+      <td>5861</td>
+      <td>47</td>
+    </tr>
+    <tr>
+      <td>1.515</td>
+      <td>4508</td>
+      <td>46</td>
+    </tr>
+    <tr>
+      <td>1.667</td>
+      <td>3441</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <td>1.818</td>
+      <td>2504</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <td>1.970</td>
+      <td>1877</td>
+      <td>46</td>
+    </tr>
+    <tr>
+      <td>2.121</td>
+      <td>1388</td>
+      <td>43</td>
+    </tr>
+    <tr>
+      <td>2.273</td>
+      <td>996</td>
+      <td>43</td>
+    </tr>
+    <tr>
+      <td>2.425</td>
+      <td>695</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <td>2.576</td>
+      <td>470</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <td>2.728</td>
+      <td>321</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td>2.879</td>
+      <td>214</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <td>3.031</td>
+      <td>126</td>
+      <td>42</td>
+    </tr>
+    <tr>
+      <td>3.182</td>
+      <td>72</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <td>3.334</td>
+      <td>45</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td>3.485</td>
+      <td>25</td>
+      <td>39</td>
+    </tr>
+    <tr>
+      <td>3.637</td>
+      <td>16</td>
+      <td>38</td>
+    </tr>
+    <tr>
+      <td>3.788</td>
+      <td>8</td>
+      <td>55</td>
+    </tr>
+    <tr>
+      <td>3.940</td>
+      <td>6</td>
+      <td>59</td>
+    </tr>
+    <tr>
+      <td>4.091</td>
+      <td>2</td>
+      <td>64</td>
+    </tr>
+    <tr>
+      <td>4.243</td>
+      <td>1</td>
+      <td>64</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Gene subset returned corresponding to the “nonzero” indices:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID_REF</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>91952_at</td>
+    </tr>
+    <tr>
+      <td>230739_at</td>
+    </tr>
+    <tr>
+      <td>221304_at</td>
+    </tr>
+    <tr>
+      <td>214951_at</td>
+    </tr>
+    <tr>
+      <td>209973_at</td>
+    </tr>
+    <tr>
+      <td>206049_at</td>
+    </tr>
+    <tr>
+      <td>202876_s_at</td>
+    </tr>
+    <tr>
+      <td>1570303_at</td>
+    </tr>
+    <tr>
+      <td>1564377_at</td>
+    </tr>
+    <tr>
+      <td>1561238_at</td>
+    </tr>
+    <tr>
+      <td>1558949_at</td>
+    </tr>
+    <tr>
+      <td>1557113_at</td>
+    </tr>
+    <tr>
+      <td>1555695_a_at</td>
+    </tr>
+    <tr>
+      <td>1554842_at</td>
+    </tr>
+    <tr>
+      <td>1554185_at</td>
+    </tr>
+    <tr>
+      <td>1553618_at</td>
+    </tr>
+    <tr>
+      <td>1553224_at</td>
+    </tr>
+    <tr>
+      <td>1552915_at</td>
+    </tr>
+    <tr>
+      <td>1552712_a_at</td>
+    </tr>
+    <tr>
+      <td>1552559_a_at</td>
+    </tr>
+    <tr>
+      <td>1552426_a_at</td>
+    </tr>
+    <tr>
+      <td>1552343_s_at</td>
+    </tr>
+    <tr>
+      <td>1552304_at</td>
+    </tr>
+    <tr>
+      <td>1552275_s_at</td>
+    </tr>
+    <tr>
+      <td>1552258_at</td>
+    </tr>
+    <tr>
+      <td>1320_at</td>
+    </tr>
+    <tr>
+      <td>1294_at</td>
+    </tr>
+    <tr>
+      <td>1053_at</td>
+    </tr>
+    <tr>
+      <td>1007_s_at</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+</article>
+
+<footer>
+	<p> Notes on machine learning and data analysis <br>
+	<small>
+	&copy; <a href="721570+akatav@users.noreply.github.com" target="_blank">S.Venkat</a>. &nbsp;&nbsp;Some rights reserved.
+	</small></p>
+</footer>
+
+	
+
+
+	</body>
+</html>

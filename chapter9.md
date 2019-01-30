@@ -5,6 +5,9 @@ title: "Conclusion"
 
 # Further questions and concluding remarks
 
+> What are the assumptions of LDA/Fisher's ? Do they assume no correlation between the features ? How do these   
+assumptions affect the classification ?
+
 > If $$n>K$$ or vice versa, how does it affect the covariance matrices ?
 
 > What is the effect of the covariance matrices being symmetric, positive semi definite ?
@@ -26,4 +29,6 @@ title: "Conclusion"
 > How is SVD better than eigen decomposition ?
 
 > What to do when $$p>>>n$$ ?
+
+> Implementations of advanced Fisher's like SparseLDA, penalizedLDA
 

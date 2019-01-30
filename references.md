@@ -44,3 +44,9 @@ title: "References"
 <a href="https://stats.stackexchange.com/questions/87975/bayesian-and-fishers-approaches-to-linear-discriminant-analysis" name="bayesian-vs-fishers" target="_blank">Bayesian and Fisher's approaches to linear discriminant analysis</a>
 
 <a href="https://en.wikipedia.org/wiki/Linear_discriminant_analysis#Multiclass_LDA" name="multiclass-lda" target="_blank">Muticlass LDA</a>
+
+<a href="https://stats.stackexchange.com/questions/60622/why-is-a-sample-covariance-matrix-singular-when-sample-size-is-less-than-number" name="singularity" target="_blank">When will covariance matrix be singular?</a>
+
+<a name="autismdataset" href="https://www.ncbi.nlm.nih.gov/sites/GDSbrowser?acc=GDS4431" target="_blank">Autism and increased paternal age related changes in global levels of gene expression regulation.</a>
+
+<a name="pamr" href="https://rdrr.io/cran/pamr/man/pamr.train.html" target="_blank">pamr.train: A function to train a nearest shrunken centroid classifier</a>
