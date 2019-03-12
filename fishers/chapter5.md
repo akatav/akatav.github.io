@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: home
 title: "Existing implementations of FDA"
 ---
 

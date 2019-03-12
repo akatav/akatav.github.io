@@ -21,4 +21,4 @@ keep_files: ["_img"]
 #   - vendor/bundle/
 #   - vendor/cache/
 
-theme: jekyll-theme-cayman
+#theme: jekyll-theme-cayman

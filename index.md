@@ -40,6 +40,20 @@ layout: home
         </td>
       </tr>
     </table>
+    
+    <table width="100%" align="center" border="0" cellpadding="20">
+      <tr>
+
+        <td width="51%" valign="middle">
+        <p>
+          <a href="PredictADOSscoresUsingNilearn.html" style="font-size:15pt">
+          Applying ML models to neuroimaging data with nilearn
+          </a>
+        </p>
+        </td>
+      </tr>
+    </table>
+
 
       <script type="text/javascript">
       var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
