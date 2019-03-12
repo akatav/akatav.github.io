@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <title>Fisher's Discriminant Analysis | implementation</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="keywords" content="fishers discriminant analysis,dimensionality reduction,classification,pca,R" />
+        <meta name="author" content="SVenka" />
+        <meta name="description" content="Fishers discriminant analysis" />
+        <meta name="viewport" content="width=640px, initial-scale=1.0, maximum-scale=1.0">	
+        <!-- favicon -->
+        <link rel="shortcut icon" href="/images/favicon.ico">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen, projection" />
+        <script type="text/javascript" async 
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?
+config=TeX-AMS-MML_HTMLorMML"></script>
+	</head>
+	<body>
+
+		
+<header>
+	<h1>
+		<a href="/">Notes on machine learning and data analysis</a>
+	</h1>
+	<br>
+	<small>
+		by <a href="http://linkedin.com" target="_blank">S.Venkat</a>
+	</small>
+</header>
+
+
+		<article class="toc">
+
+<h3 id="about-nilearn-library">About nilearn library</h3>
+
+<p><em>nilearn</em> is an open source python module for machine learning and analysis of neuroimaging data. Follow the tutorial <a href="https://nilearn.github.io/introduction.html#installing-nilearn" target="_blank">here</a> to install nipype.</p>
+
+<h3 id="analysis-of-abide-fmri-dataset-to-predict-ados-scores">Analysis of ABIDE fMRI dataset to predict ADOS scores</h3>
+
+<p>Let’s try and predict ADOS scores of diagnosed autistic individuals from their fMRI brain scans. That’s sure be very an exciting thing to do.</p>
+
+<p>Let us start with a training set of about 20 individuals who all have autism. In the Phenotypic_V1_0b_preprocessed1.csv, the variable DX_GROUP indicates the presence (or absence) of autism. 0 represents the absence of autism while 1 represents its presence. A full description of the various phenotypic attributes of each individual whose brain was scanned can be found <a href="http://fcon_1000.projects.nitrc.org/indi/abide/ABIDE_LEGEND_V1.02.pdf" target="_blank">here</a></p>
+
+<p>In nilearn, we use the <a href="https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_abide_pcp.html" target="_blank">fetch_abide_pcp</a> method to download the NIFTI images of the training set. Data will be downloaded to /home/user/nilearn_data/ABIDE_pcp/cpac/nofilt_noglobal</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">nilearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">nilearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_abide_pcp</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">nilearn.connectome</span> <span class="kn">import</span> <span class="n">ConnectivityMeasure</span>
+<span class="kn">from</span> <span class="nn">nilearn.decomposition</span> <span class="kn">import</span> <span class="n">CanICA</span>
+<span class="c1"># download ABIDE dataset for autistic individuals
+</span><span class="n">pitt_abide_ds</span><span class="o">=</span><span class="n">fetch_abide_pcp</span><span class="p">(</span><span class="n">SUB_ID</span><span class="o">=</span><span class="p">[</span><span class="mi">50003</span><span class="p">,</span> <span class="mi">50004</span><span class="p">,</span> <span class="mi">50005</span><span class="p">,</span> <span class="mi">50006</span><span class="p">,</span> <span class="mi">50007</span><span class="p">,</span> <span class="mi">50012</span><span class="p">,</span><span class="mi">50013</span><span class="p">,</span><span class="mi">50016</span><span class="p">,</span> <span class="mi">50024</span><span class="p">,</span> <span class="mi">50025</span><span class="p">,</span> <span class="mi">50026</span><span class="p">,</span> <span class="mi">50027</span><span class="p">],</span> <span class="n">derivatives</span><span class="o">=</span><span class="p">[</span><span class="s">'func_preproc'</span><span class="p">,</span> <span class="s">'rois_cc200'</span><span class="p">])</span>
+<span class="n">funcfiles</span><span class="o">=</span> <span class="n">pitt_abide_ds</span><span class="o">.</span><span class="n">func_preproc</span></code></pre></figure>
+
+<p>NIFTI is a 4d representation of the brain across a predetermined time span. However, for purposes of analysis, the 4d images have to be converted to 2d. We extract the response of each 3d brain cordinate (or voxel) across the given timespan (ie, the blood oxygenation level of each  voxel of the brain varies both in resting and active states across a given time period. So, we get the resulting time vs voxel BOLD activity which is a 2d representation of the 4d .nii image. This process is called masking.</p>
+
+<p>In fMRI experiments, the BOLD signal recorded in each voxel of the brain aims to record brain activity in resting state or while performing a certain activity. However, in real life, there are many interferences and the BOLD signal recorded will not always purely reflect only brain activity in response to the experimenta stimuli. Because in real time, the brain respond to various other external and internal stimuli such as heartrate, head motion of the scanned individual, breathing etc. So, the recorded signal is often noisy. This is similar to the cocktail party problem in many respects where there are <script type="math/tex">n</script> devices that record the conversations of n individuals. Needless to state, each recorder picks up a mixture of the speech signals. The task is to seperate each individual speech signal from the mixture.</p>
+
+<p>We use the <script type="math/tex">CanICA</script> method in nilearn for denoising the images. The resulting 4d image is stored in <script type="math/tex">canica.components_img_</script>.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1">#Perform Canonical ICA on the fmri images to remove noise and seperate independent components
+</span><span class="n">canica</span> <span class="o">=</span> <span class="n">CanICA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">smoothing_fwhm</span><span class="o">=</span><span class="mf">6.</span><span class="p">,</span><span class="n">memory</span><span class="o">=</span><span class="s">'nilearn_cache'</span><span class="p">,</span> <span class="n">mask_strategy</span><span class="o">=</span><span class="s">'background'</span><span class="p">,</span>  <span class="n">memory_level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">canica</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">funcfiles</span><span class="p">)</span>
+<span class="n">components</span><span class="o">=</span><span class="n">canica</span><span class="o">.</span><span class="n">components_</span>
+<span class="c1"># Perform inverse transform on the obtained compoenents 
+</span><span class="n">components_img</span><span class="o">=</span><span class="n">canica</span><span class="o">.</span><span class="n">masker_</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">components</span><span class="p">)</span></code></pre></figure>
+
+<p>This image is then used to extract the time series above using <script type="math/tex">NiftiMapsMasker</script> object.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">nilearn.regions</span> <span class="kn">import</span> <span class="n">RegionExtractor</span>
+<span class="kn">from</span> <span class="nn">nilearn</span> <span class="kn">import</span> <span class="n">plotting</span>
+<span class="n">extractor</span> <span class="o">=</span> <span class="n">RegionExtractor</span><span class="p">(</span><span class="n">components_img</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">2.</span><span class="p">,</span><span class="n">thresholding_strategy</span><span class="o">=</span><span class="s">'ratio_n_voxels'</span><span class="p">,</span><span class="n">extractor</span><span class="o">=</span><span class="s">'local_regions'</span><span class="p">,</span><span class="n">standardize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">min_region_size</span><span class="o">=</span><span class="mi">1350</span><span class="p">)</span>
+<span class="c1"># Just call fit() to process for regions extraction
+</span><span class="n">extractor</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="c1"># Extracted regions are stored in regions_img_
+</span><span class="n">regions_extracted_img</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">regions_img_</span>
+<span class="c1"># Total number of regions extracted
+</span><span class="n">n_regions_extracted</span> <span class="o">=</span> <span class="n">regions_extracted_img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="c1"># Visualization of region extraction results
+</span><span class="n">title</span> <span class="o">=</span> <span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">d regions are extracted from </span><span class="si">%</span><span class="s">d components.'</span> <span class="o">%</span> <span class="p">(</span><span class="n">n_regions_extracted</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">plotting</span><span class="o">.</span><span class="n">plot_prob_atlas</span><span class="p">(</span><span class="n">regions_extracted_img</span><span class="p">,</span><span class="n">view_type</span><span class="o">=</span><span class="s">'filled_contours'</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.008</span><span class="p">)</span></code></pre></figure>
+
+<p>Our task is to predict ADOS scores of test samples based on the time series and ADOS score information of the training samples. The assumption is that depending on the connectivity between the various regions of the brain of an individual, the prevalence of autism (and values of ADOS scores) can be predicted. Here, we use the rois_cc200 atlas to extract 200 regions of interest in the brain.</p>
+
+<p>nilearn has the <script type="math/tex">ConnectivityMeasure</script> method readily available to get the connectivity matrices for the training samples. The obtained connectivity matrix is simply the correlation between the time series of the various brain regions. Once, all the connectivity matrices are obtained, we use these matrices as the new training set. Since these matrices are symmetric matrices, it is necessary to extract the upper or lower triangular portions of these matrices.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">nilearn.connectome</span> <span class="kn">import</span> <span class="n">ConnectivityMeasure</span>
+<span class="n">conn_est</span> <span class="o">=</span> <span class="n">ConnectivityMeasure</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">'partial correlation'</span><span class="p">)</span>
+<span class="n">conn_matrices</span> <span class="o">=</span> <span class="n">conn_est</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">pitt_abide_ds</span><span class="o">.</span><span class="n">rois_cc200</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">nilearn.connectome</span> <span class="kn">import</span> <span class="n">sym_to_vec</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">sym_to_vec</span><span class="p">(</span><span class="n">conn_matrices</span><span class="p">)</span></code></pre></figure>
+
+<p>The next step is to apply suitable learning algorithms that accept the connectivity matrices as training set alongwith the ADOS scores for these individuals as the training target values  to predict ADOS scores for unseen brain images. We can also setup a cross validation routine to accomplish the same.</p>
+
+<p>We use Support Vector Regression using GridSearch.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">pipe_svr</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s">'scl'</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),(</span><span class="s">'reg'</span><span class="p">,</span> <span class="n">MultiOutputRegressor</span><span class="p">(</span><span class="n">SVR</span><span class="p">()))])</span>
+<span class="n">grid_param_svr</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'reg__estimator__kernel'</span><span class="p">:</span> <span class="p">[</span><span class="s">'rbf'</span><span class="p">,</span> <span class="s">'linear'</span><span class="p">,</span> <span class="s">'poly'</span><span class="p">,</span> <span class="s">'sigmoid'</span><span class="p">],</span>
+    <span class="s">'reg__estimator__gamma'</span><span class="p">:[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span>
+    <span class="s">'reg__estimator__C'</span><span class="p">:[</span><span class="mf">1e0</span><span class="p">,</span> <span class="mf">1e1</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">],</span>
+    <span class="s">'reg__estimator__gamma'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">gs_svr</span> <span class="o">=</span> <span class="p">(</span><span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">pipe_svr</span><span class="p">,</span><span class="n">param_grid</span><span class="o">=</span><span class="n">grid_param_svr</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">scoring</span> <span class="o">=</span> <span class="s">'mean_squared_error'</span><span class="p">,</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">gs_svr</span> <span class="o">=</span> <span class="n">gs_svr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="mi">8</span><span class="p">],</span><span class="n">k</span><span class="p">[:</span><span class="mi">8</span><span class="p">])</span>
+<span class="n">ypred</span><span class="o">=</span><span class="n">gs_svr</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">12</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">ypred</span><span class="p">,</span><span class="n">y</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">12</span><span class="p">]))</span></code></pre></figure>
+
+
+
+</article>
+
+<footer>
+	<p> Notes on machine learning and data analysis <br>
+	<small>
+	&copy; <a href="721570+akatav@users.noreply.github.com" target="_blank">S.Venkat</a>. &nbsp;&nbsp;Some rights reserved.
+	</small></p>
+</footer>
+
+	
+
+
+	</body>
+</html>
