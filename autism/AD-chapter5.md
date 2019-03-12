@@ -8,9 +8,7 @@ _nilearn_ is an open source python module for machine learning and analysis of n
 
 ### Analysis of ABIDE fMRI dataset to predict ADOS scores
 
-Let's try and predict ADOS scores of diagnosed autistic individuals from their fMRI brain scans. That's sure be very an exciting thing to do. 
-
-Let us start with a training set of about 20 individuals who all have autism. In the Phenotypic_V1_0b_preprocessed1.csv, the variable DX_GROUP indicates the presence (or absence) of autism. 0 represents the absence of autism while 1 represents its presence. A full description of the various phenotypic attributes of each individual whose brain was scanned can be found [here](http://fcon_1000.projects.nitrc.org/indi/abide/ABIDE_LEGEND_V1.02.pdf){:target="_blank"}
+Let's try and predict ADOS scores of diagnosed autistic individuals from their fMRI brain scans. Let us start with a training set of about 12 individuals who all have autism. In the Phenotypic_V1_0b_preprocessed1.csv, the variable DX_GROUP indicates the presence (or absence) of autism. 0 represents the absence of autism while 1 represents its presence. A full description of the various phenotypic attributes of each individual whose brain was scanned can be found [here](http://fcon_1000.projects.nitrc.org/indi/abide/ABIDE_LEGEND_V1.02.pdf){:target="_blank"}. We are going to try to predict values for phenotypic attributes like ADOS_TOTAL, ADOS_COMM, ADOS_SOCIAL. 
 
 In nilearn, we use the [fetch_abide_pcp](https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_abide_pcp.html){:target="_blank"} method to download the NIFTI images of the training set. Data will be downloaded to /home/user/nilearn_data/ABIDE_pcp/cpac/nofilt_noglobal
 
@@ -26,11 +24,7 @@ funcfiles= pitt_abide_ds.func_preproc
 
 {% endhighlight python %}
 
-NIFTI is a 4d representation of the brain across a predetermined time span. However, for purposes of analysis, the 4d images have to be converted to 2d. We extract the response of each 3d brain cordinate (or voxel) across the given timespan (ie, the blood oxygenation level of each  voxel of the brain varies both in resting and active states across a given time period. So, we get the resulting time vs voxel BOLD activity which is a 2d representation of the 4d .nii image. This process is called masking. 
-
-In fMRI experiments, the BOLD signal recorded in each voxel of the brain aims to record brain activity in resting state or while performing a certain activity. However, in real life, there are many interferences and the BOLD signal recorded will not always purely reflect only brain activity in response to the experimenta stimuli. Because in real time, the brain respond to various other external and internal stimuli such as heartrate, head motion of the scanned individual, breathing etc. So, the recorded signal is often noisy. This is similar to the cocktail party problem in many respects where there are $$n$$ devices that record the conversations of n individuals. Needless to state, each recorder picks up a mixture of the speech signals. The task is to seperate each individual speech signal from the mixture. 
-
-We use the $$CanICA$$ method in nilearn for denoising the images. The resulting 4d image is stored in $$canica.components_img_$$. 
+In fMRI experiments, the BOLD signal recorded in each voxel of the brain aims to record brain activity in resting state or while performing a certain activity. However, in real life, there are many interferences and the BOLD signal recorded will not always purely reflect only brain activity in response to the experimenta stimuli. Because in real time, the brain respond to various other external and internal stimuli such as heartrate, head motion of the scanned individual, breathing etc. So, the recorded signal is often noisy. This is similar to the cocktail party problem in many respects where there are $$n$$ devices that record the conversations of n individuals. Needless to state, each recorder picks up a mixture of the speech signals. The task is to seperate each individual speech signal from the mixture. Similarly, we'd like to obtain the BOLD signals devoid of noise. For this, we use a technique called Independent Component Analysis (ICA). We can readilyuse the $$CanICA$$ method in nilearn. The resulting 4d image is stored in $$canica.components_img_$$. The components_img is a 4d representation of the denoised data. 
 
 {% highlight python %}
 #Perform Canonical ICA on the fmri images to remove noise and seperate independent components
@@ -41,7 +35,7 @@ components=canica.components_
 components_img=canica.masker_.inverse_transform(components)
 {% endhighlight %}
 
-This image is then used to extract the time series above using $$NiftiMapsMasker$$ object. 
+This image is then used to extract the time series using $$NiftiMapsMasker$$ object through a process called "masking". NIFTI is a 4d representation of the brain across a predetermined time span. However, for purposes of analysis, the 4d images have to be converted to 2d. We extract the response of each 3d brain cordinate (or voxel) across the given timespan (ie, the blood oxygenation level of each  voxel of the brain varies both in resting and active states across a given time period. So, we get the resulting time vs voxel BOLD activity which is a 2d representation of the 4d .nii image. We use the components_img obtained after ICA as it is much less noisier than the original data. 
 
 {% highlight python %}
 from nilearn.regions import RegionExtractor
@@ -58,9 +52,9 @@ title = ('%d regions are extracted from %d components.' % (n_regions_extracted, 
 plotting.plot_prob_atlas(regions_extracted_img,view_type='filled_contours',title=title, threshold=0.008)
 {% endhighlight %}
 
-Our task is to predict ADOS scores of test samples based on the time series and ADOS score information of the training samples. The assumption is that depending on the connectivity between the various regions of the brain of an individual, the prevalence of autism (and values of ADOS scores) can be predicted. Here, we use the rois_cc200 atlas to extract 200 regions of interest in the brain. 
+Our task is to predict ADOS scores of test samples based on the time series and ADOS score information of the training samples. The assumption is that depending on the connectivity between the various regions of the brain of an individual, the prevalence of autism (and values of ADOS scores) can be predicted. Here, we use the rois_cc200 atlas to extract 200 regions of interest in the brain. We have specified this already while downloading the data using the $$fetch_abide_pcp$$ module.
 
-nilearn has the $$ConnectivityMeasure$$ method readily available to get the connectivity matrices for the training samples. The obtained connectivity matrix is simply the correlation between the time series of the various brain regions. Once, all the connectivity matrices are obtained, we use these matrices as the new training set. Since these matrices are symmetric matrices, it is necessary to extract the upper or lower triangular portions of these matrices. 
+nilearn has the $$ConnectivityMeasure$$ method readily available to get the connectivity matrices for the training samples. The obtained connectivity matrix of a sample is simply the correlation between the time series of the various brain regions. Once, all the connectivity matrices are obtained, we use these matrices as the new training set. Since these matrices are symmetric matrices, it is necessary to extract the upper or lower triangular portions of these matrices. 
 
 {% highlight python %}
 from nilearn.connectome import ConnectivityMeasure
