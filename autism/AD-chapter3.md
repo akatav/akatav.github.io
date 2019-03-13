@@ -9,4 +9,6 @@ The ABIDE dataset is one of the few excellent datasets for research in autism. I
 
 ABIDE initiative collected data from 16 different sites such as Caltech, CMU, Univ. of Pittsburgh and so on. More information on this can be found [here](http://fcon_1000.projects.nitrc.org/indi/abide/abide_I.html){:target:"_blank"}. In the example given above, "Pitt" represents the SITE_ID and the subject id (0050003) represents the ID of the individual whose NIFT brain images we would like to download. 
 
+The dataset also contains a csv file that list all phenotypic attributes of each individual scanned, such as age, gender, site where individual was scanned, DX_GROUP (indicates whether individual has autism or not) and various other quantitative variables measuring the social, communication scores of the individual. This file can be found [here](https://s3.amazonaws.com/fcp-indi/data/Projects/ABIDE_Initiative/Phenotypic_V1_0b_preprocessed1.csv){:target:"_blank"}. A full description of the various phenotypic attributes can be found [here](http://fcon_1000.projects.nitrc.org/indi/abide/ABIDE_LEGEND_V1.02.pdf){:target="_blank"}.
+
 <a class="continue" href="AD-chapter5.html">Next chapter</a>

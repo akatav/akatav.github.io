@@ -8,7 +8,9 @@ _nilearn_ is an open source python module for machine learning and analysis of n
 
 ### Analysis of ABIDE fMRI dataset to predict ADOS scores
 
-Let's try and predict ADOS scores of diagnosed autistic individuals from their fMRI brain scans. Let us start with a training set of about 12 individuals who all have autism. In the Phenotypic_V1_0b_preprocessed1.csv, the variable DX_GROUP indicates the presence (or absence) of autism. 0 represents the absence of autism while 1 represents its presence. A full description of the various phenotypic attributes of each individual whose brain was scanned can be found [here](http://fcon_1000.projects.nitrc.org/indi/abide/ABIDE_LEGEND_V1.02.pdf){:target="_blank"}. We are going to try to predict values for phenotypic attributes like ADOS_TOTAL, ADOS_COMM, ADOS_SOCIAL. 
+Let's try and predict ADOS scores of diagnosed autistic individuals from their fMRI brain scans. Let us start with a training set of about 12 individuals who all have autism. 
+
+We are going to try to predict values for phenotypic attributes like ADOS_TOTAL, ADOS_COMM, ADOS_SOCIAL. 
 
 In nilearn, we use the [fetch_abide_pcp](https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_abide_pcp.html){:target="_blank"} method to download the NIFTI images of the training set. Data will be downloaded to /home/user/nilearn_data/ABIDE_pcp/cpac/nofilt_noglobal
 
