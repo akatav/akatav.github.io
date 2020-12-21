@@ -58,7 +58,10 @@ low_fq = 8
 low_fq_width = 1.0
 n_points = 10000
 noise_level = 0.4
-signal=allfiles1[16].get_data()
+
+# Get some patient's EEG recording
+signal=allfiles1[0].get_data() # 19 channel timeseries data
+# Filter signal between low_fq and high_fq (here, alpha frequency band)
 low_fq_range = np.linspace(low_fq,high_fq, 10)
 method='bispectrum'
 mean_bispectrum_vals=np.zeros((19,))
