@@ -69,6 +69,19 @@ layout: home
       </tr>
     </table>
 
+    <table width="100%" align="center" border="0" cellpadding="20">
+      <tr>
+
+        <td width="51%" valign="middle">
+        <p>
+          <a href="EEGAnalysis-blog.html" style="font-size:15pt">
+          EEG Analysis with MNE
+          </a>
+        </p>
+        </td>
+      </tr>
+    </table>
+
 
     <table width="100%" align="center" border="0" cellpadding="20">
       <tr>
