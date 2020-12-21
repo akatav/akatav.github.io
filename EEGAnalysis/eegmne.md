@@ -61,13 +61,14 @@ noise_level = 0.4
 
 # Get some patient's EEG recording
 signal=allfiles1[0].get_data() # 19 channel timeseries data
-# Filter signal between low_fq and high_fq (here, alpha frequency band)
+# Compute bicoherence for signal only between low_fq and high_fq (here, alpha frequency band)
 low_fq_range = np.linspace(low_fq,high_fq, 10)
 method='bispectrum'
 mean_bispectrum_vals=np.zeros((19,))
 import pandas as pd
 locs=pd.read_csv("/10-20system.csv")
 for ch in range(0,signal.shape[0]):
+    # Comodulogram of pactools used to compute bicoherence of signal in alpha frequency range
     estimator = Comodulogram(fs=fs, low_fq_range=low_fq_range,low_fq_width=low_fq_width, method=method,progress_bar=False)
     estimator.fit(signal[ch,:])
     mean_bispectrum_vals[ch,]=np.mean(estimator.comod_)
