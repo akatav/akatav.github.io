@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <title>Fisher's Discriminant Analysis | eeganalysis</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="keywords" content="fishers discriminant analysis,dimensionality reduction,classification,pca,R" />
+        <meta name="author" content="SVenka" />
+        <meta name="description" content="Fishers discriminant analysis" />
+        <meta name="viewport" content="width=640px, initial-scale=1.0, maximum-scale=1.0">	
+        <!-- favicon -->
+        <link rel="shortcut icon" href="/images/favicon.ico">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen, projection" />
+        <script type="text/javascript" async 
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?
+config=TeX-AMS-MML_HTMLorMML"></script>
+	</head>
+	<body>
+
+		
+<header>
+	<h1>
+		<a href="/">Notes on machine learning and data analysis</a>
+	</h1>
+	<br>
+	<small>
+		by <a href="http://linkedin.com" target="_blank">svenka</a>
+	</small>
+</header>
+
+
+		<article class="toc">
+
+<h4 id="reading-a-sample-set-file">Reading a sample .set file</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">mne</span>
+<span class="kn">import</span> <span class="nn">mne_features</span>
+<span class="n">mcifile</span><span class="o">=</span><span class="n">mne</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_eeglab</span><span class="p">(</span><span class="s">"/aMCI/CAUH_298.set"</span><span class="p">)</span>
+<span class="n">mcifile</span>
+</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;RawEEGLAB  |  CAUH_298.set, n_channels x n_times : 19 x 11990 (59.9 sec), ~1.8 MB, data loaded&gt;
+</code></pre></div></div>
+
+<h4 id="load-all-eeg-files">Load all EEG files</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">mne</span> <span class="k">as</span> <span class="n">mne</span>
+<span class="n">allfolder</span><span class="o">=</span><span class="s">"/all/"</span>
+<span class="n">allfiles</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">allfolder</span><span class="p">)</span>
+<span class="n">allfiles1</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">fi</span> <span class="ow">in</span> <span class="n">allfiles</span><span class="p">:</span>
+    <span class="n">fn</span><span class="o">=</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">'/all/'</span><span class="p">,</span> <span class="n">fi</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">=</span><span class="n">mne</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_eeglab</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+    <span class="n">allfiles1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="what-is-the-sampling-frequency-">What is the sampling frequency ?</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">allfiles1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">'sfreq'</span><span class="p">])</span>
+</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>200.0 Hz
+</code></pre></div></div>
+
+<h4 id="what-are-the-eeg-channels">What are the EEG Channels?</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fn</span><span class="o">=</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">'/all/'</span><span class="p">,</span> <span class="n">allfiles</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">f</span><span class="o">=</span><span class="n">mne</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_raw_eeglab</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+<span class="n">columns</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">ch_names</span>
+<span class="k">print</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['Fp1-AVG', 'F3-AVG', 'C3-AVG', 'P3-AVG', 'O1-AVG', 'Fp2-AVG', 'F4-AVG', 'C4-AVG', 'P4-AVG', 'O2-AVG', 'F7-AVG', 'T3-AVG', 'T5-AVG', 'F8-AVG', 'T4-AVG', 'T6-AVG', 'FZ-AVG', 'CZ-AVG', 'PZ-AVG']
+</code></pre></div></div>
+
+<h4 id="what-are-the-frequency-bands-we-can-analyse">What are the frequency bands we can analyse?</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">FREQ_BANDS</span> <span class="o">=</span> <span class="p">{</span><span class="s">"delta"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">],</span><span class="s">"theta"</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">],</span><span class="s">"alpha"</span><span class="p">:</span> <span class="p">[</span><span class="mf">8.5</span><span class="p">,</span> <span class="mf">11.5</span><span class="p">],</span><span class="s">"sigma"</span><span class="p">:</span> <span class="p">[</span><span class="mf">11.5</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">],</span>
+                  <span class="s">"beta"</span><span class="p">:</span> <span class="p">[</span><span class="mf">15.5</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span> <span class="s">"all"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">45</span><span class="p">]}</span>
+</code></pre></div></div>
+<h4 id="compute-bicoherence-values-over-each-channel-for-some-n-channel-eeg-recording-below-we-have-used-a-package-called-pactools">Compute bicoherence values over each channel for some n-channel eeg recording. Below we have used a package called pactools</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">pactools</span> <span class="kn">import</span> <span class="n">Comodulogram</span><span class="p">,</span> <span class="n">REFERENCES</span>
+<span class="kn">from</span> <span class="nn">pactools</span> <span class="kn">import</span> <span class="n">simulate_pac</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="mf">200.</span>
+<span class="n">high_fq</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">low_fq</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">low_fq_width</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">n_points</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">noise_level</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">signal</span><span class="o">=</span><span class="n">allfiles1</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+<span class="n">low_fq_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">low_fq</span><span class="p">,</span><span class="n">high_fq</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">method</span><span class="o">=</span><span class="s">'bispectrum'</span>
+<span class="n">mean_bispectrum_vals</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">19</span><span class="p">,))</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="n">locs</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"/10-20system.csv"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">signal</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="n">estimator</span> <span class="o">=</span> <span class="n">Comodulogram</span><span class="p">(</span><span class="n">fs</span><span class="o">=</span><span class="n">fs</span><span class="p">,</span> <span class="n">low_fq_range</span><span class="o">=</span><span class="n">low_fq_range</span><span class="p">,</span><span class="n">low_fq_width</span><span class="o">=</span><span class="n">low_fq_width</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span><span class="n">progress_bar</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">estimator</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="n">ch</span><span class="p">,:])</span>
+    <span class="n">mean_bispectrum_vals</span><span class="p">[</span><span class="n">ch</span><span class="p">,]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">estimator</span><span class="o">.</span><span class="n">comod_</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="the-mean-bicoherence-values-obtained-using-pactools-package-for-each-of-the-n-eeg-channels">The mean bicoherence values obtained using pactools package for each of the n EEG channels</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mean_bispectrum_vals</span>
+</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>array([-30.12183418, -29.76264187, -29.9897885 , -29.3527151 ,
+       -28.81369499, -29.81468632, -29.32162026, -30.09891781,
+       -28.57958522, -27.93335758, -29.08927445, -29.34038286,
+       -28.96037254, -28.88373867, -28.65277022, -28.04964427,
+       -29.11625337, -28.76752224, -29.10712627])
+</code></pre></div></div>
+
+<h4 id="we-have-taken-19-eeg-channels-below-are-the-2d-coordinates-for-these-channels">We have taken 19 eeg channels. Below are the 2d coordinates for these channels</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">eeg_locs_2d</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">19</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">21.5</span><span class="p">,</span><span class="mf">70.2</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">35.5</span><span class="p">,</span><span class="mf">49.4</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">2</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">52.2</span><span class="p">,</span><span class="o">-</span><span class="mf">16.4</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">3</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">39.5</span><span class="p">,</span><span class="o">-</span><span class="mf">76.3</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">4</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">26.8</span><span class="p">,</span><span class="o">-</span><span class="mf">100.2</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">5</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="mf">28.4</span><span class="p">,</span><span class="mf">69.1</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">6</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="mf">40.2</span><span class="p">,</span><span class="mf">47.6</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">7</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="mf">54.1</span><span class="p">,</span><span class="o">-</span><span class="mf">18.0</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">8</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="mf">36.8</span><span class="p">,</span><span class="o">-</span><span class="mf">74.9</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">9</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="mf">24.1</span><span class="p">,</span><span class="o">-</span><span class="mf">100.5</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">10</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">54.8</span><span class="p">,</span><span class="mf">33.9</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">11</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">70.2</span><span class="p">,</span><span class="o">-</span><span class="mf">21.3</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">12</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">61.5</span><span class="p">,</span><span class="o">-</span><span class="mf">65.3</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">13</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="mf">56.6</span><span class="p">,</span><span class="mf">30.8</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">14</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="mf">71.9</span><span class="p">,</span><span class="o">-</span><span class="mf">25.2</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">15</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="mf">59.3</span><span class="p">,</span><span class="o">-</span><span class="mf">67.6</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">16</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">40.9</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">17</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="mf">0.8</span><span class="p">,</span><span class="o">-</span><span class="mf">14.7</span><span class="p">]</span>
+<span class="n">eeg_locs_2d</span><span class="p">[</span><span class="mi">18</span><span class="p">,:]</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="o">-</span><span class="mf">62.1</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h4 id="plot-the-topomap">Plot the topomap</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mne</span><span class="o">.</span><span class="n">viz</span><span class="o">.</span><span class="n">plot_topomap</span><span class="p">(</span><span class="n">mean_bispectrum_vals</span><span class="p">,</span> <span class="n">eeg_locs_2d</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="output_9_0.png" alt="png" /></p>
+
+
+
+</article>
+
+<footer>
+	<p> Notes on machine learning and data analysis <br>
+	<small>
+	&copy; <a href="721570+akatav@users.noreply.github.com" target="_blank">S.Venkat</a>. &nbsp;&nbsp;Some rights reserved.
+	</small></p>
+</footer>
+
+	
+
+
+	</body>
+</html>

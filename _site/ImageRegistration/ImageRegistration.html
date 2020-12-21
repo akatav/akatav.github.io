@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <title>Fisher's Discriminant Analysis | imageregistration</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="keywords" content="fishers discriminant analysis,dimensionality reduction,classification,pca,R" />
+        <meta name="author" content="SVenka" />
+        <meta name="description" content="Fishers discriminant analysis" />
+        <meta name="viewport" content="width=640px, initial-scale=1.0, maximum-scale=1.0">	
+        <!-- favicon -->
+        <link rel="shortcut icon" href="/images/favicon.ico">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen, projection" />
+        <script type="text/javascript" async 
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?
+config=TeX-AMS-MML_HTMLorMML"></script>
+	</head>
+	<body>
+
+		
+<header>
+	<h1>
+		<a href="/">Notes on machine learning and data analysis</a>
+	</h1>
+	<br>
+	<small>
+		by <a href="http://linkedin.com" target="_blank">svenka</a>
+	</small>
+</header>
+
+
+		<nav>
+	<ol>
+		<li>
+			<a href="/chapter1.html" class="">Chapter 1
+			<span>A&nbsp;simple&nbsp;introduction</span> 
+			</a>
+		</li>
+		<li>
+			<a href="/chapter2.html" class="">Chapter 2
+			<span>Intuition</span> 
+			</a>
+		</li>
+		<li>
+			<a href="/chapter3.html" class="">Chapter 3
+			<span>Fisher's&nbsp;discriminant</span> 
+			</a>
+		</li>
+		<li>
+			<a href="/chapter4.html" class="">Chapter 4
+			<span>Mathematical&nbsp;derivation</span> 
+			</a>
+		</li>
+		<li>
+			<a href="/chapter5.html" class="">Chapter 5
+			<span>Existing&nbsp;implementations</span> 
+			</a>
+		</li>
+		<li>
+			<a href="/chapter6.html" class="">Chapter 6
+			<span>Code&nbsp;review</span> 
+			</a>
+		</li>
+		<li>
+			<a href="/chapter9.html" class="">Chapter 7
+			<span>Example&nbsp;1</span> 
+			</a>
+		</li>
+		<li>
+			<a href="references.html" class="">References
+			<span>References</span>
+			</a>
+		</li>
+	</ol>
+</nav>
+	
+
+<article>
+
+<h3 id="image-registration">Image registration</h3>
+
+<li>Dataset consisted of a stack of 2d images obtained from live imaging (in-vivo) of mouse hippocampus. Each image is obtained at successive depths along the axial plane. </li>
+<li>The mouse is sedated but there is movement from respiration,heartbeat and other body movements such as head motion. </li>
+<li>This movement affects the images as the resulting images can be distorted and blurred. </li>
+<li>It is therefore neceessary to do movement or motion correction of these images to remove the motion artifacts caused by the afore-mentioned body movements.</li>
+<li>There are various packages and libraries to remove such motion artifacts from images, such as ImageJ plugins like StackReg,TurboReg,MultiStackReg, Poorman3DReg, TrackEM2 and others.There are others like ptvReg in Matlab.</li>
+<li>We will look at some of these algorithms and implementations in this blog.</li>
+
+<p><a class="continue" href="">Next chapter</a></p>
+
+
+</article>
+
+
+<footer>
+	<p> Notes on machine learning and data analysis <br>
+	<small>
+	&copy; <a href="721570+akatav@users.noreply.github.com" target="_blank">S.Venkat</a>. &nbsp;&nbsp;Some rights reserved.
+	</small></p>
+</footer>
+
+	
+
+
+
+	</body>
+</html>
