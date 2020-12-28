@@ -5,7 +5,7 @@ title: "motioncorrectioninvivo"
 
 ### Correcting for phase artifacts due to bidirectional scanning in imaging
 
-We detail how to remove phase artifacts in images obtained from in-vivo imaging. We use the [NoRMCorre](../references.html/NoRMCorre) library to study the same. We also consulted some papers in this regard such as [this](../references.html/phaseartifactremoval) one. 
+We detail how to remove phase artifacts in images obtained from in-vivo imaging. We use the [NoRMCorre](../references.html/) library to study the same. We also consulted some papers in this regard such as [this](../references.html/) one. 
 
 1. Let _Y_ be the matrix with dimensions _(x,y,n)_ representing an image with _n_ frames (chosen from _N_ frames of the original image (_n_ &lt;&lt;&lt; _N_). Each frame has dimensions _(x,y)_.  
 2. Get mean of _n_ frames resulting in the resultant mean image _M_ of dimension _(x,y)_.  
