@@ -5,7 +5,7 @@ title: "introduction"
 
 # Introduction
 
-Fisher's discriminant analysis was first introduced by [Fisher, 1936](references.html/Fisher1936). Fisher's discriminant analysis is a supervised data analysis technique. This means that it is mandatory that the (training) data samples that are to be classified need to be labelled as belonging to one of the output classes. Fisher's Discriminant Analysis (hitherto referred to as _FDA_) is also a  dimensionality reduction method in statistical data analysis. This is helpful when the data resides in higher dimensions and needs to be projected onto a lower dimension for easy analysis. In this article, we aim to discuss FDA in detail, both mathematically and implementation-wise. 
+Fisher's discriminant analysis was first introduced by [Fisher, 1936](../references.html/Fisher1936). Fisher's discriminant analysis is a supervised data analysis technique. This means that it is mandatory that the (training) data samples that are to be classified need to be labelled as belonging to one of the output classes. Fisher's Discriminant Analysis (hitherto referred to as _FDA_) is also a  dimensionality reduction method in statistical data analysis. This is helpful when the data resides in higher dimensions and needs to be projected onto a lower dimension for easy analysis. In this article, we aim to discuss FDA in detail, both mathematically and implementation-wise. 
 
 > Given dataset _X_ in _d_ dimensions where each data sample $$x_i$$ is assigned to one of _K_ discrete output class labels. _FDA_ aims to find a _discriminant_ in a lower dimension $$d' < d$$ onto which _X_ is projected. The projected data points belonging to the _K_ classes are easily seperated on this discriminant. 
 
