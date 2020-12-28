@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: home
 title: "References"
 ---
 
@@ -50,3 +50,13 @@ title: "References"
 <a name="autismdataset" href="https://www.ncbi.nlm.nih.gov/sites/GDSbrowser?acc=GDS4431" target="_blank">Autism and increased paternal age related changes in global levels of gene expression regulation.</a>
 
 <a name="pamr" href="https://rdrr.io/cran/pamr/man/pamr.train.html" target="_blank">pamr.train: A function to train a nearest shrunken centroid classifier</a>
+
+<a name="NoRMCorre" href="https://www.sciencedirect.com/science/article/pii/S0165027017302753?via%3Dihub" target="_blank">NoRMCorre: An online algorithm for piecewise rigid motion correction of calcium imaging data</a>
+
+<a name="phaseartifactremoval" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5946793/#app1title" target="_blank">Phase stabilization</a>
+
+<a name="imresize" href="https://kr.mathworks.com/help/matlab/ref/imresize.html" target="_blank">imresize</a>
+
+<a name="fft" href="https://kr.mathworks.com/help/matlab/ref/fft.html" target="_blank">fftn</a>
+
+<a name="ifftshift" href="https://kr.mathworks.com/help/matlab/ref/ifftshift.html" target="_blank">ifftshift</a>

@@ -82,8 +82,20 @@ layout: home
       </tr>
     </table>
 
+<table width="100%" align="center" border="0" cellpadding="20">
+      <tr>
 
-    <table width="100%" align="center" border="0" cellpadding="20">
+        <td width="51%" valign="middle">
+        <p>
+          <a href="phaseartifactremoval.html" style="font-size:15pt">
+          Remove phase artifact from images
+          </a>
+        </p>
+        </td>
+      </tr>
+    </table>
+
+    <!--<table width="100%" align="center" border="0" cellpadding="20">
       <tr>
 
         <td width="51%" valign="middle">
@@ -94,7 +106,7 @@ layout: home
         </p>
         </td>
       </tr>
-    </table>
+    </table>-->
 
 
       <script type="text/javascript">
