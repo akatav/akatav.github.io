@@ -5,10 +5,10 @@ title: "Existing implementations of FDA"
 
 # Implementations
 
-[DiscriMiner](references.html/DiscriMiner) is an R package that implements Fisher's discriminants. We will discuss the code in this package in some detail and use it to classify the IRIS and MNIST datasets. 
+[DiscriMiner](../references.html##DiscriMiner) is an R package that implements Fisher's discriminants. We will discuss the code in this package in some detail and use it to classify the IRIS and MNIST datasets. 
 
 
-Below, we use the [IRIS](references.html/iris) dataset. The data lies in $$R^4$$ and K=3. This means that the projected data points will lie in $$min(K-1,d)=2$$ dimensions. We use the DiscriMiner package to find the covariances. 
+Below, we use the [IRIS](../references.html##iris) dataset. The data lies in $$R^4$$ and K=3. This means that the projected data points will lie in $$min(K-1,d)=2$$ dimensions. We use the DiscriMiner package to find the covariances. 
 
 Once projected, we visualize the projected data points as seen in the plot below. _FDA_ does a great job with the IRIS dataset with a 97% accuracy. The misclassified data points also can be seen clearly in the projected space as shown in the plot below.
 

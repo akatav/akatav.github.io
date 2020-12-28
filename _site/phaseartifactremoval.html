@@ -34,20 +34,21 @@ config=TeX-AMS-MML_HTMLorMML"></script>
 
 <h3 id="correcting-for-phase-artifacts-due-to-bidirectional-scanning-in-imaging">Correcting for phase artifacts due to bidirectional scanning in imaging</h3>
 
-<p>We detail how to remove phase artifacts in images obtained from in-vivo imaging. We use the <a href="/references.html/NoRMCorre">NoRMCorre</a> library to study the same. We also consulted some papers in this regard such as <a href="/references.html/phaseartifactremoval">this</a> one.</p>
+<p>We detail how to remove phase artifacts in images obtained from in-vivo imaging. We use the <a href="references.html#NoRMCorre">NoRMCorre</a>
+ library to study the same. We also consulted some papers in this regard such as <a href="references.html#phaseartifactremoval">this</a> one.</p>
 
 <ol>
   <li>Let <em>Y</em> be the matrix with dimensions <em>(x,y,n)</em> representing an image with <em>n</em> frames (chosen from <em>N</em> frames of the original image (<em>n</em> &lt;&lt;&lt; <em>N</em>). Each frame has dimensions <em>(x,y)</em>.</li>
   <li>Get mean of <em>n</em> frames resulting in the resultant mean image <em>M</em> of dimension <em>(x,y)</em>.</li>
   <li>Get <em>min(M)</em></li>
   <li>Get odd and even rows of the mean matrix <em>M</em> as two matrices, say, <em>M</em><sub>o</sub> and <em>M</em><sub>e</sub></li>
-  <li>Upsample <em>M</em><sub>o</sub> and <em>M</em><sub>e</sub> by some factor <em>usfac</em> using <a href="/references.html/imresize"><em>imresize</em></a> function. Let the upsamples matrices be <em>M</em><sub>uo</sub> and <em>M</em><sub>ue</sub>.</li>
-  <li>Get fourier transforms of <em>M</em><sub>uo</sub> and <em>M</em><sub>ue</sub> using <a href="/references.html/fft"><em>fft</em></a>. Let these matrices be <em>F</em><sub>1</sub> and <em>F</em><sub>2</sub>.</li>
+  <li>Upsample <em>M</em><sub>o</sub> and <em>M</em><sub>e</sub> by some factor <em>usfac</em> using <a href="references.html#imresize"><em>imresize</em></a> function. Let the upsamples matrices be <em>M</em><sub>uo</sub> and <em>M</em><sub>ue</sub>.</li>
+  <li>Get fourier transforms of <em>M</em><sub>uo</sub> and <em>M</em><sub>ue</sub> using <a href="references.html#fft"><em>fft</em></a>. Let these matrices be <em>F</em><sub>1</sub> and <em>F</em><sub>2</sub>.</li>
   <li>Get product <em>P</em> of <em>F</em><sub>1</sub> and conjugate of <em>F</em><sub>2</sub>.</li>
-  <li>Get inverse fourier transform, that is, <a href="/references.html/ifft">ifft</a> of <em>P</em>. Let it be <em>C</em>.</li>
+  <li>Get inverse fourier transform, that is, <a href="references.html#ifft">ifft</a> of <em>P</em>. Let it be <em>C</em>.</li>
   <li>Get absolute value of <em>C</em>. Let it be <em>abs</em>.</li>
   <li>Get mean of <em>abs</em> along the upsampled dimension, here <em>y</em>. This returns <em>usfac*y</em> mean values. Get max of these values and get it’s index <em>ind</em>.</li>
-  <li>Reverse zero frequency shift <em>I</em> using <a href="/references.html/ifftshift"><em>ifftshift</em></a> along the upsampled dimension <em>usfac*y</em>.</li>
+  <li>Reverse zero frequency shift <em>I</em> using <a href="references.html#ifftshift"><em>ifftshift</em></a> along the upsampled dimension <em>usfac*y</em>.</li>
   <li>Return shift due to phase artifact as <em>I[ind]/usfac</em>.</li>
 </ol>
 
